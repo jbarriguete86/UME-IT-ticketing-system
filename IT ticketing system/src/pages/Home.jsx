@@ -1,29 +1,19 @@
 import React, { useEffect, useState} from "react"
 import styles from "../App.module.css"
-import { Bar } from "react-chartjs-2"
+import {dat} from "../configuration.js"
 
 export default function Home(){
-    const [chartData, setChartData]= useState({
-       openTickets: 5,
-       unassignedTickets: 200,
-       closedTickets: 1
-    })
-
-    const updateChartData = () => {
-        // Simulating data update
-        const newChartData = {
-          openTickets: Math.floor(Math.random() * 100), // Random number between 0 and 100
-          unassignedTickets: Math.floor(Math.random() * 100),
-          closedTickets: Math.floor(Math.random() * 100),
-        };
-        setChartData(newChartData);
-      }
+    const [data, setData]= useState([])
 
 
-      useEffect(() => {
-        // Call the function to update chart data when component mounts
-        updateChartData();
-      }, [])
+    useEffect(()=>{
+        getData()
+    },[dat])
+    function getData(){
+        setData(dat)
+    }
+
+    console.log(data)
 
     return (
         <div className={styles.home_container}>
@@ -31,15 +21,15 @@ export default function Home(){
             <div className={styles.home_wrapper}>
                 <div className={styles.ticket_type_container}>
                     <p>Unassigned tickets</p>
-                    <p>{chartData.unassignedTickets}</p>
+                    <p>4</p>
                 </div>
                 <div className={styles.ticket_type_container}>
                     <p>Solved tickets</p>
-                    <p>{chartData.closedTickets}</p>
+                    <p>5</p>
                 </div>
                 <div className={styles.ticket_type_container}>
                     <p>Open tickets</p>
-                    <p>{chartData.openTickets}</p>
+                    <p>6</p>
                 </div>
                     
                 <div key="chartContainer" className={styles.chart_container}>

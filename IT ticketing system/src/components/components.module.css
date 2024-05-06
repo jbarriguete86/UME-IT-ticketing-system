@@ -1,3 +1,33 @@
+/* LAYOUT COMPONENT */
 .site_wrapper{
-    padding: 0 1em;
+    padding: 1em 1em 0;
+}
+
+/* HEADER COMPONENT */
+header,
+.logo_container,
+header > nav{
+    display: flex;
+}
+
+header{
+    justify-content:space-between;
+    align-items: center;
+    /* border-bottom: 6px maroon dotted; */
+    padding-bottom: 4em;
+}
+
+.logo_container{
+    align-items: center;
+    gap: 20px;
+}
+
+.logo_container > img {
+    width: 6em;
+}
+
+.logo_container > p {
+    font-size: 3rem;
+    font-weight: bolder;
+    color: #1C1678;
 }
