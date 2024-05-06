@@ -1,0 +1,28 @@
+.home_container,
+.home_wrapper,
+.ticket_type_container{
+    display: flex;
+}
+
+.home_container{
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}
+
+.home_wrapper{
+    gap: 7em;
+    flex-wrap: wrap;
+}
+
+.ticket_type_container{
+    flex-direction: column;
+    background-color: aliceblue;
+    border: 1px solid black;
+    padding: 2em;
+    border-radius: 15px;
+}
+
+.ticket_type_container > p:first-child{
+    font-weight: bold;
+}
