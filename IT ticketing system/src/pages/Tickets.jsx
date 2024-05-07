@@ -1,10 +1,121 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import styles from "../App.module.css"
+import {dat} from "../configuration.js"
 
 export default function Tickets(){
+    const [data, setData]= useState([])
+    const [formData, setFormData]=useState({
+        filter:"",
+        category:"",
+        ticket:"",
+        campus:""
+    })
+    
+    useEffect(()=>{
+        getData()
+    },[dat])
+    function getData(){
+        setData(dat)
+    }
+
+    function handleChange(event) {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }))
+    }
+
+    console.log(data)
+
+    const tickets=data.map(element=> {
+        const {id, category, isAssigned, isSolved, location, personAssigned, personReporting} = element
+        return (
+            <div key={id} className={styles.ticket}>
+                <a href={`tickets/${id}`}>view</a>
+                <p>{personReporting}</p>
+                <p>{location === "dallasHighschool" ? "Dallas Highschool" 
+                : 
+                location === "dallasJuniorHigh" ? "Dallas Junior High" 
+                : 
+                location === "dallasElementary" ? "Dallas Elementary"
+                :
+                location === "duncanville" ? "Duncanville" : "Mansfield"
+                }</p>
+                <p>{category}</p>
+                <p>{isAssigned ? personAssigned : "unassigned"}</p>
+                <p>{isSolved ? "closed" : "pending"}</p>
+
+            </div>
+        )})
+
     return (
-        <>
-        <h2>This is the tickets page</h2>
-        </>
+        <div className={styles.tickets_main}>
+            <div className={styles.tickets_selectors}>
+                <select
+                id="filter"
+                value={formData.filter}
+                onChange={handleChange}
+                name="filter"
+                >
+                    <option value="">Filter by status</option>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                </select>
+
+                <select
+                id="filter"
+                value={formData.category}
+                onChange={handleChange}
+                name="category"
+                >
+                    <option value="">Filter by category</option>
+                    <option value="printer">Printer</option>
+                    <option value="projector">Projector</option>
+                    <option value="computer">Computer/Laptops</option>
+                    <option value="chromebook">Chromebook</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <select
+                id="filter"
+                value={formData.campus}
+                onChange={handleChange}
+                name="campus"
+                >
+                    <option value="">Filter by campus</option>
+                    <option value="duncanville">Duncanville</option>
+                    <option value="mansfield">Mansfield</option>
+                    <option value="dallasElementary">Dallas Elementary</option>
+                    <option value="dallasHighschool">Dallas Highschool</option>
+                    <option value="dallasJuniorHigh">Dallas Junior High</option>
+                </select>
+
+
+                <input
+                type="text"
+                placeholder="person who created the ticket"
+                name="ticket"
+                value={formData.ticket}
+                onChange={handleChange}
+                />
+                <button className={styles.create_btn}>Create new</button>
+            </div>
+            <div className={styles.tickets_container}>
+            <p>Tickets</p>
+                <div className={styles.tickets_title}>
+                    <p></p>
+                    <p>Created by</p>
+                    <p>Campus</p>
+                    <p>Category</p>
+                    <p>Assigned to</p>
+                    <p>Status</p>
+                </div>
+                <div className={styles.tickets}>
+                    {data && tickets}
+                </div>
+            </div>
+        
+        </div>
     )
 }

@@ -1,6 +1,5 @@
 .home_container,
-.home_wrapper,
-.ticket_type_container{
+.home_wrapper{
     display: flex;
 }
 
@@ -20,6 +19,7 @@
 }
 
 .ticket_type_container{
+    display: flex;
     flex-direction: column;
     background-color: aliceblue;
     border: 1px solid black;
@@ -32,6 +32,8 @@
     font-weight: bold;
 }
 
+
+
 header > nav {
     margin-right: 2em;
     gap: 5em;
@@ -41,4 +43,92 @@ header > nav {
 nav > a{
     text-decoration: none;
     color: black;
+}
+
+/* TICKETS PAGE */
+
+.tickets_main,
+.tickets_selectors,
+.tickets_forms,
+.tickets_container,
+.tickets_title,
+.tickets,
+.ticket
+{
+display: flex;
+}
+
+.tickets_main,
+.tickets_container,
+.tickets{
+flex-direction: column;
+}
+
+.tickets_main{
+    gap: 2em;
+    padding: 0 3em;
+}
+
+.tickets_selectors{
+justify-content:flex-end;
+padding-right: 24px;
+}
+
+.tickets_selectors > select,
+.tickets_selectors > input{
+    margin-right: 6%;
+}
+
+.tickets_selectors > select{
+    padding: 1em;
+    border-radius: 5px;;
+}
+
+.tickets_selectors > input{
+    min-width: 250px;
+    text-align: center;
+}
+
+.create_btn{
+    padding: 1em;
+    border-radius: 5px;;
+}
+
+
+
+.tickets_container > p {
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+.tickets_title,
+.ticket{
+    gap: 8%;
+}
+
+.tickets_title > p,
+.ticket > p,
+.ticket > a{
+    width: 100%;
+}
+
+.tickets_title{
+    background-color: honeydew;
+    font-weight: bold;
+    padding: 1em 0;
+}
+
+.tickets{
+ background-color:#E1F7F5 ;
+ padding: 0 0 1em 0;
+}
+
+.ticket{
+    padding: 1em 0;
+    border: 1px rgb(224, 223, 223) solid;
+}
+
+.ticket > a{
+    border-right: 1px solid black;
+    text-align: center;
 }

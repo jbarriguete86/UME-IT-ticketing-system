@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Tickets from './pages/Tickets'
+import Ticket from './components/Ticket'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home/>}/>
           <Route path="tickets" element={<Tickets/>}/>
+            <Route path="tickets/:id" element={<Ticket/>}/>
           <Route path="login" element={<Login/>}/>
         </Route>
       </Routes>
