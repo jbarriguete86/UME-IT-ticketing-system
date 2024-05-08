@@ -50,6 +50,10 @@ export const dat = [
     personAssigned:"Jose Barriguete",
     isSolved: true,
     dateClosed:"05/06/2024",
-    comments:[{user:"Jose Barriguete", comment:"Reset the laptop and it worked again, I send the email closing the ticket on may 6th, 2024"}]
+    comments:[
+        {key:"dfer3", user:"Landy Williams", comment:"I talked to the teacher and ask her to reset the laptop, but that didn't work", date:"may 2nd, 2024"},
+        {key:"dfer4",user:"Jose Barriguete", comment:"I sent an email to the teacher, will visit the campus on may 6th, to troubleshoot on premises", date:"may 4th, 2024"},
+        {key:"dfer5", user:"Jose Barriguete", comment:"Reset the laptop and it worked again, I send the email closing the ticket on may 6th, 2024", date:"may 6th,2024"}
+    ]
 }
 ]

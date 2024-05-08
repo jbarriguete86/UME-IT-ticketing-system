@@ -32,5 +32,69 @@ header{
     color: #1C1678;
 }
 
-/* TYPE CONTAINER COMPONENT */
+/* TICKET CONTAINER COMPONENT */
 
+.ticket_section,
+.ticket_info,
+.ticket_editing,
+.comments_container,
+.comment_container{
+    display: flex;
+}
+
+
+.ticket_section,
+.comments_container,
+.comment_container{
+    flex-direction: column;
+}
+
+.ticket_section{
+    gap: 1em;
+}
+
+.ticket_section > a {
+    width: 200px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color:crimson;
+    margin-bottom: 2em;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 34px;
+    background-color: black;
+}
+
+.ticket_editing{
+    gap: 2em;
+    margin-bottom: 24px;;
+}
+
+
+.ticket_info{
+    gap: 2em;
+    border-bottom: 1px solid crimson;
+}
+
+.ticket_info > p:first-child,
+.ticket_info > div > p:first-child {
+    font-weight: bold;
+    /* margin-right: 2em; */
+}
+
+.ticket_info > p:last-child {
+    font-style: italic;
+}
+
+.ticket_info > div {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+    align-items: center;
+    border-right: 1px double crimson;
+
+
+}

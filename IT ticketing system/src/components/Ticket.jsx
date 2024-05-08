@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { useParams } from "react-router-dom"
+import { useParams, NavLink } from "react-router-dom"
 import styles from "./components.module.css"
 import { dat } from "../configuration.js"
 
@@ -9,7 +9,8 @@ export default function Ticket(){
         status:"",
         assigned:"",
         category:"",
-        campus:""
+        campus:"",
+        comment:""
 
     })
     const [comment, setComment]=useState([])
@@ -32,27 +33,46 @@ export default function Ticket(){
     function submitComment(e){
         e.preventDefault()
         const user= "Jose Barriguete Ramos"
-        const comment = e.value
-        console.log(comment)
-        setComment(prevComments => [...prevComments, {user: user, comment: comment}])
-        e.value= ""
+        setComment(prevComments => [...prevComments, {user: user, comment: formData.comment}])
+        setFormData(prevFormData=>({
+            ...prevFormData,
+            comment:""
+        }))
 
 
     }
 
-    console.log(comment)
+    function getLocationName(location) {
+        const locationMap = {
+            dallasHighschool: "Dallas Highschool",
+            dallasJuniorHigh: "Dallas Junior High",
+            dallasElementary: "Dallas Elementary",
+            duncanville: "Duncanville",
+            mansfield: "Mansfield"
+        };
+        return locationMap[location] || "Unknown";
+    }
+
+    const commentsEl = data && data.comments.map(element=>{
+        return (
+            <div key={element.key} className={styles.comment_container}>
+                <div>
+                    <h3>User</h3>
+                    <p>{element.user}</p>
+                </div>
+                <div>
+                    <h3>Comment</h3>
+                    <p>{element.comment}</p>
+                </div>
+                <p><span>Submitted on: </span>{element.date}</p>
+            </div>
+        )
+    })
 
     return data && (
-        <div className={styles.ticket_container}>
-                    <div>
-                        <p>Person reporting the ticket</p>
-                        <p>{data.personReporting}</p>
-                    </div>
-                    <div>
-                        <p>Describe the problem</p>
-                        <p>{data.description}</p>
-                    </div>
-                    <div>
+        <div className={styles.ticket_section}>
+                <NavLink to="/tickets">Go back</NavLink>
+                <div className={styles.ticket_editing}>
                         <label htmlFor="status">Select the status of the ticket</label>
                         <select
                         id="status"
@@ -68,7 +88,7 @@ export default function Ticket(){
                         <label htmlFor="category">Select the category of the ticket</label>
                         <select
                         id="category"
-                        value={FormData.category}
+                        value={formData.category}
                         name="category"
                         onChange={handleChange}
                         >
@@ -83,7 +103,7 @@ export default function Ticket(){
                         <label htmlFor="campus">Select the campus</label>
                         <select
                         id="campus"
-                        value={FormData.campus}
+                        value={formData.campus}
                         name="campus"
                         onChange={handleChange}
                         >
@@ -95,12 +115,49 @@ export default function Ticket(){
                             <option value="mansfield">Mansfield</option>
                         </select>
                     </div>
+                    <div className={styles.ticket_info}>
+                        <p>Person reporting the ticket |</p>
+                        <p>{data.personReporting}</p>
+                    </div>
+                    <div className={styles.ticket_info}>
+                        <p>Describe the problem |</p>
+                        <p>{data.description}</p>
+                    </div>
+            
+                    <div className={styles.ticket_info}>
+                        <div>
+                            <p>STATUS</p>
+                            <p>{data.isSolved ? "Closed" : "Pending"}</p>
+                        </div>
+
+                        <div>
+                            <p>CAMPUS</p>
+                            <p>{getLocationName(data.location)}</p>
+                        </div>
+                        <div>
+                            <p>Category</p>
+                            <p>{data.category}</p>
+                        </div>
+                        <div>
+                            <p>Assigned to:</p>
+                            <p>{data.isAssigned ? data.personAssigned : "unassigned"}</p>
+                        </div>
+                    </div>
+                    <div className={styles.comments_container}>
+                        {data.comments.length > 0 ? commentsEl : "No comments yet"}
+                    </div>
                     <div>
                         <p>Comments</p>
-                        <textarea name="comment" id="comment"></textarea>
+                        <textarea 
+                        name="comment" 
+                        id="comment"
+                        value={formData.comment}
+                        onChange={handleChange}/>
                         <button className={styles.submitComment} onClick={submitComment}>Enter comment</button>
                     </div>
+                    
                     <button className={styles.submit_btn}>Submit</button>
+                    
                 </div>
     )
 }
