@@ -91,7 +91,12 @@ padding-right: 24px;
 
 .create_btn{
     padding: 1em;
-    border-radius: 5px;;
+    border-radius: 35px;
+    border: 1px solid black;
+    background-color: crimson;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 

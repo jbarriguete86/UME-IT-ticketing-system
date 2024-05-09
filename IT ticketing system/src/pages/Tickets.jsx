@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import styles from "../App.module.css"
 import {dat} from "../configuration.js"
+import NewTicket from "../components/NewTicket.jsx"
 
 export default function Tickets(){
     const [data, setData]= useState([])
@@ -10,6 +11,7 @@ export default function Tickets(){
         ticket:"",
         campus:""
     })
+    const [newTicket, setNewTicket]=useState(false)
     
     useEffect(()=>{
         getData()
@@ -26,7 +28,9 @@ export default function Tickets(){
         }))
     }
 
-    console.log(data)
+    function createNewTicket(){
+        setNewTicket(prevState=>!prevState)
+    }
 
     const tickets=data.map(element=> {
         const {id, category, isAssigned, isSolved, location, personAssigned, personReporting} = element
@@ -51,6 +55,7 @@ export default function Tickets(){
 
     return (
         <div className={styles.tickets_main}>
+            {newTicket && <NewTicket onClick={()=>createNewTicket()}/>}
             <div className={styles.tickets_selectors}>
                 <select
                 id="filter"
@@ -99,7 +104,7 @@ export default function Tickets(){
                 value={formData.ticket}
                 onChange={handleChange}
                 />
-                <button className={styles.create_btn}>Create new</button>
+                <button className={styles.create_btn} onClick={setNewTicket}>Create new</button>
             </div>
             <div className={styles.tickets_container}>
             <p>Tickets</p>

@@ -13,7 +13,6 @@ header > nav{
 header{
     justify-content:space-between;
     align-items: center;
-    /* border-bottom: 6px maroon dotted; */
     padding-bottom: 4em;
 }
 
@@ -38,7 +37,9 @@ header{
 .ticket_info,
 .ticket_editing,
 .comments_container,
-.comment_container{
+.comment_container,
+.comment_section,
+.comment_section_inner{
     display: flex;
 }
 
@@ -51,9 +52,14 @@ header{
 
 .ticket_section{
     gap: 1em;
+    align-items: center;
+    padding:  0 7em;
+
 }
 
-.ticket_section > a {
+.ticket_section > a,
+.ticket_section > button,
+.comment_section_inner > button {
     width: 200px;
     cursor: pointer;
     text-decoration: none;
@@ -67,21 +73,41 @@ header{
     background-color: black;
 }
 
+.ticket_section > a{
+    align-self: flex-end;
+
+}
+
 .ticket_editing{
     gap: 2em;
-    margin-bottom: 24px;;
+    margin-bottom: 24px;
+    align-items: center;
+    font-weight: bold;
+}
+
+.ticket_editing > select{
+    border: none;
+    cursor: pointer;
+    color:crimson;
+    font-weight: bold;
 }
 
 
 .ticket_info{
     gap: 2em;
     border-bottom: 1px solid crimson;
+    width: 100%;
+    padding-bottom: 1em;
+}
+
+.centered{
+    justify-content: center;
 }
 
 .ticket_info > p:first-child,
 .ticket_info > div > p:first-child {
     font-weight: bold;
-    /* margin-right: 2em; */
+    text-transform: uppercase;
 }
 
 .ticket_info > p:last-child {
@@ -95,6 +121,109 @@ header{
     width: 15em;
     align-items: center;
     border-right: 1px double crimson;
+}
+
+.ticket_section > button {
+    background-color: rgb(20, 9, 168);
+    align-self: center;
+}
+
+.comment_section{
+    flex-direction: column;
+    align-items: center;
+}
 
 
+
+.comment_section > p{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.comment_section_inner{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    padding-top: 2em;
+
+}
+
+.comment_section> hr{
+    border: none;
+    width: 50%;
+    border-bottom: 6px dotted crimson;
+    margin: 1em 0;
+
+}
+
+.comment_section_inner > textarea{
+    min-width: 100%;
+    min-height: 10em;
+    margin-bottom: 1em;
+    resize: none;
+    background: #E1F7F5;
+    border: none;
+    box-shadow: 0 0 10px rgba(220,20,60, .6);
+    font-size: 1rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    
+}
+
+
+.comment_section_inner > button{
+    border: 1px solid black;
+    background-color: crimson;
+    color: black;
+    font-size: 1rem;
+    padding: 1em;
+}
+
+.comments_container{
+    width: 100%;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.comment_container{
+    width: 50%;
+    border: none;
+    border-bottom: 1px double #1C1678;
+    /* padding-bottom: 1em; */
+}
+
+.comment_container > p{
+    align-self: flex-end;
+    margin-top: 1em;
+}
+
+
+
+.comment_container > p > span{
+    font-weight: bold;
+}
+
+.comment_container > div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;;
+}
+
+/* NEW TICKET */
+
+.new_ticket_container{
+    border: 1px black solid;
+    position:absolute;
+    display: flex;
+    width: 500px;
+    height: 500px;
+    background-color: white;    
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.new_ticket_container > p{
+    cursor: pointer;
 }

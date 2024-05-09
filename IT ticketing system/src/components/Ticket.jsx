@@ -3,6 +3,7 @@ import { useParams, NavLink } from "react-router-dom"
 import styles from "./components.module.css"
 import { dat } from "../configuration.js"
 
+
 export default function Ticket(){
     const [data, setData]=useState()
     const [formData, setFormData]= useState ({
@@ -38,9 +39,9 @@ export default function Ticket(){
             ...prevFormData,
             comment:""
         }))
-
-
     }
+
+    
 
     function getLocationName(location) {
         const locationMap = {
@@ -69,6 +70,7 @@ export default function Ticket(){
         )
     })
 
+
     return data && (
         <div className={styles.ticket_section}>
                 <NavLink to="/tickets">Go back</NavLink>
@@ -76,7 +78,7 @@ export default function Ticket(){
                         <label htmlFor="status">Select the status of the ticket</label>
                         <select
                         id="status"
-                        value={FormData.status}
+                        value={formData.status}
                         name="status"
                         onChange={handleChange}
                         >
@@ -96,7 +98,7 @@ export default function Ticket(){
                             <option value="printer">Printer</option>
                             <option value="chromebook">Chromebook</option>
                             <option value="computer">Computer/laptop</option>
-                            <option value="projector">Chromebook</option>
+                            <option value="projector">Projector</option>
                             <option value="other">Other</option>
                         </select>
 
@@ -114,7 +116,20 @@ export default function Ticket(){
                             <option value="duncanville">Duncanville</option>
                             <option value="mansfield">Mansfield</option>
                         </select>
+
+                        <label htmlFor="assigned">Modify who is assigned to this ticket</label>
+                        <select
+                        id="assigned"
+                        value={formData.assigned}
+                        name="assigned"
+                        onChange={handleChange}
+                        >
+                            <option value="">Select user</option>
+                            <option value="Jose Barriguete">Jose Barriguete</option>
+                            <option value="Landy Williams">Landy Williams</option>
+                        </select>
                     </div>
+                    
                     <div className={styles.ticket_info}>
                         <p>Person reporting the ticket |</p>
                         <p>{data.personReporting}</p>
@@ -124,7 +139,7 @@ export default function Ticket(){
                         <p>{data.description}</p>
                     </div>
             
-                    <div className={styles.ticket_info}>
+                    <div className={`${styles.ticket_info} ${styles.centered}`}>
                         <div>
                             <p>STATUS</p>
                             <p>{data.isSolved ? "Closed" : "Pending"}</p>
@@ -133,6 +148,10 @@ export default function Ticket(){
                         <div>
                             <p>CAMPUS</p>
                             <p>{getLocationName(data.location)}</p>
+                        </div>
+                        <div>
+                            <p>ROOM #</p>
+                            <p>{data.room ? data.room : "Missing information"}</p>
                         </div>
                         <div>
                             <p>Category</p>
@@ -146,14 +165,17 @@ export default function Ticket(){
                     <div className={styles.comments_container}>
                         {data.comments.length > 0 ? commentsEl : "No comments yet"}
                     </div>
-                    <div>
+                    <div className={styles.comment_section}>
+                        <hr/>
                         <p>Comments</p>
-                        <textarea 
-                        name="comment" 
-                        id="comment"
-                        value={formData.comment}
-                        onChange={handleChange}/>
-                        <button className={styles.submitComment} onClick={submitComment}>Enter comment</button>
+                        <div className={styles.comment_section_inner}>
+                            <textarea 
+                            name="comment" 
+                            id="comment"
+                            value={formData.comment}
+                            onChange={handleChange}/>
+                            <button className={styles.submitComment} onClick={submitComment}>Enter comment</button>
+                        </div>
                     </div>
                     
                     <button className={styles.submit_btn}>Submit</button>

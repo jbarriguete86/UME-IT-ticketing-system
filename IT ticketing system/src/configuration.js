@@ -18,7 +18,7 @@ export const dat = [
     description: "Upstair printer jamming every other print",
     personReporting: "Mr. Loomis",
     location:"dallasElementary",
-    room:"teacher workroom",
+    room:"",
     category:"printer",
     isAssigned: false,
     personAssigned:"",
