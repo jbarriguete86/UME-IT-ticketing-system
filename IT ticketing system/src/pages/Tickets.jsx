@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import styles from "../App.module.css"
-import {dat} from "../configuration.js"
+import {dat, db} from "../configuration.js"
+import { doc, getDoc } from "firebase/firestore"
 import NewTicket from "../components/NewTicket.jsx"
 
 export default function Tickets(){
@@ -13,6 +14,8 @@ export default function Tickets(){
     })
     const [newTicket, setNewTicket]=useState(false)
     
+   
+
     useEffect(()=>{
         getData()
     },[dat])

@@ -1,6 +1,36 @@
+/* MAIN CHANGES ACCROSS COMPONENTS */
+textarea{
+    resize: none;
+    background: #E1F7F5;
+    border: none;
+    box-shadow: 0 0 10px rgba(220,20,60, .6);
+    font-size: 1rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+}
+
+select{
+    border: none;
+    cursor: pointer;
+    color:crimson;
+    font-weight: bold;
+}
+
+button{
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 34px;
+}
+
+
 /* LAYOUT COMPONENT */
 .site_wrapper{
     padding: 1em 1em 0;
+    position: relative;
 }
 
 /* HEADER COMPONENT */
@@ -85,13 +115,6 @@ header{
     font-weight: bold;
 }
 
-.ticket_editing > select{
-    border: none;
-    cursor: pointer;
-    color:crimson;
-    font-weight: bold;
-}
-
 
 .ticket_info{
     gap: 2em;
@@ -161,13 +184,7 @@ header{
     min-width: 100%;
     min-height: 10em;
     margin-bottom: 1em;
-    resize: none;
-    background: #E1F7F5;
-    border: none;
-    box-shadow: 0 0 10px rgba(220,20,60, .6);
-    font-size: 1rem;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 400;
+    
     
 }
 
@@ -216,14 +233,62 @@ header{
     border: 1px black solid;
     position:absolute;
     display: flex;
-    width: 500px;
-    height: 500px;
+    width: 80%;
+    height: 100%;
     background-color: white;    
     align-items: center;
-    justify-content: center;
     flex-direction: column;
+    left: 0;
+    right: 0;
+    top: 3.5em;
+    bottom: 0;
+    margin: auto;
+    padding: 1em;
+    border-radius: 34px;
+    box-shadow: 0 0 34px rgba(20, 53, 220, 0.6);
+    
 }
 
-.new_ticket_container > p{
+.close_new{
     cursor: pointer;
+    align-self: flex-end;
+    font-size: 2rem;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+.inner_container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;;
+    padding: 1em 0 0;
+    gap: 24px;
+}
+
+.inner_container > div {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 2em;
+    /* justify-content: center; */
+    font-weight: bold;
+    color:#1C1678;
+}
+
+.inner_container > div > textarea{
+    width: 80%;
+    height: 80px;
+}
+
+.inner_container > hr{
+    border: none;
+    width: 10%;
+    border-bottom: 6px dotted crimson;
+    align-self: center;
+}
+
+.submit_new_btn{
+    padding: .51em;
+    background-color: black;
+    color: crimson
 }
