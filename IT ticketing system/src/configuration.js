@@ -61,8 +61,8 @@ const dat = [
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
+import { doc, getDoc, getDocs } from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -81,5 +81,19 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
+const ticketsRef= collection(db, "Tickets")
+let ticketDb = ""
+const getTickets = async () => {
+    const querySnapshot = await getDocs(ticketsRef);
+    const ticketsDb = [];
+    querySnapshot.forEach((doc) => {
+        ticketsDb.push({ id: doc.id, ...doc.data() });
+    });
+    return ticketsDb
+  };
 
-export {app, dat, db}
+ticketDb = await getTickets()
+
+
+
+export {dat, db, ticketsRef, ticketDb}

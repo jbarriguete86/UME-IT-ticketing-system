@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react"
 import styles from "../App.module.css"
-import {dat, db} from "../configuration.js"
-import { doc, getDoc } from "firebase/firestore"
+import {ticketsRef, ticketDb} from "../configuration.js"
+import { getDocs } from "firebase/firestore"
 import NewTicket from "../components/NewTicket.jsx"
 
 export default function Tickets(){
     const [data, setData]= useState([])
+    const [ticketsDat, setTicketsDat] = useState([])
     const [formData, setFormData]=useState({
         filter:"",
         category:"",
@@ -14,14 +15,20 @@ export default function Tickets(){
     })
     const [newTicket, setNewTicket]=useState(false)
     
-   
+    const getTickets = async () => {
+        const querySnapshot = await getDocs(ticketsRef);
+        const ticketsDb = [];
+        querySnapshot.forEach((doc) => {
+            ticketsDb.push({ id: doc.id, ...doc.data() });
+        });
+        setTicketsDat(ticketsDb)
+      };
 
     useEffect(()=>{
-        getData()
-    },[dat])
-    function getData(){
-        setData(dat)
-    }
+        getTickets()
+    },[])
+    
+
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -35,7 +42,9 @@ export default function Tickets(){
         setNewTicket(prevState=>!prevState)
     }
 
-    const tickets=data.map(element=> {
+    console.log(ticketDb)
+
+    const tickets=ticketsDat.map(element=> {
         const {id, category, isAssigned, isSolved, location, personAssigned, personReporting} = element
         return (
             <div key={id} className={styles.ticket}>
