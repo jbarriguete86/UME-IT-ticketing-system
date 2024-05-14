@@ -1,62 +1,107 @@
 import React, {useState, useEffect} from "react"
+import { nanoid } from "nanoid"
 import { useParams, NavLink } from "react-router-dom"
 import styles from "./components.module.css"
-import { dat } from "../configuration.js"
+import { getTicketById, addComment, updateTicket} from "../configuration.js"
+import  {formatDate, getLocationName}  from "../utilities.js"
 
 
 export default function Ticket(){
     const [data, setData]=useState()
     const [formData, setFormData]= useState ({
-        status:"",
-        assigned:"",
+        isSolved:false,
+        personAssigned:"",
         category:"",
-        campus:"",
-        comment:""
-
+        location:""
     })
-    const [comment, setComment]=useState([])
+    const [comments, setComments]=useState([])
     const {id} = useParams()
 
 
 
     useEffect(()=>{
-        setData(dat.find(element => element.id == id))
+        async function fetchTicket(ticketId){
+            const ticketInfo = await getTicketById(ticketId)
+            setData(ticketInfo)
+        }
+        fetchTicket(id)
+        
     },[id])
+
+    useEffect(()=>{
+       setComments(getComments())
+    }, [data])
+
+
 
     function handleChange(event) {
         const { name, value } = event.target;
+        
         setFormData(prevState => ({
             ...prevState,
             [name]: value
         }))
     }
 
-    function submitComment(e){
-        e.preventDefault()
-        const user= "Jose Barriguete Ramos"
-        setComment(prevComments => [...prevComments, {user: user, comment: formData.comment}])
-        setFormData(prevFormData=>({
-            ...prevFormData,
-            comment:""
-        }))
+    async  function handleSubmit(){
+        const updatedKeys = Object.keys(formData).filter(key => formData[key] !== "").reduce((acc, key)=> {
+            acc[key] = formData[key]
+            return acc
+        }, {})
+
+        if (Object.keys(updatedKeys).length > 0){
+            await updateTicket(id, updatedKeys)
+            const updatedTicket = await getTicketById(id);
+            setData(updatedTicket)
+            setFormData({
+                isSolved:"",
+                personAssigned:"",
+                category:"",
+                location:""
+            })
+            
+            
+        } else {
+            console.log("no data to modify")
+        }
+
     }
+
+    async function submitComment(e){
+        e.preventDefault()
+            const key = nanoid()
+            const user= "Jose Barriguete Ramos"
+            const comment = formData.comment
+            const date = formatDate()
+
+            if (!comment.trim()) {
+                console.log("Comment cannot be empty")
+                return;
+              }
+              const newComment = { key, user, comment, date }
+        
+              try {
+                await addComment(id, newComment);
+                console.log("Comment added successfully");
+                
+                const updatedTicket = await getTicketById(id);
+                setData(updatedTicket);
+            } catch (error) {
+                console.error("Error adding comment:", error);
+            }
 
     
-
-    function getLocationName(location) {
-        const locationMap = {
-            dallasHighschool: "Dallas Highschool",
-            dallasJuniorHigh: "Dallas Junior High",
-            dallasElementary: "Dallas Elementary",
-            duncanville: "Duncanville",
-            mansfield: "Mansfield"
-        };
-        return locationMap[location] || "Unknown";
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                comment: ""
+            }))
     }
 
-    const commentsEl = data && data.comments.map(element=>{
-        return (
-            <div key={element.key} className={styles.comment_container}>
+    function getComments(){
+        if (!data || !data.comments) return "No comments yet"
+
+        return data.comments.map(element=> (
+            <div key={element.key ? element.key : `dfer${element.user}`} className={styles.comment_container}>
                 <div>
                     <h3>User</h3>
                     <p>{element.user}</p>
@@ -68,23 +113,24 @@ export default function Ticket(){
                 <p><span>Submitted on: </span>{element.date}</p>
             </div>
         )
-    })
+    )
+    }
 
 
     return data && (
         <div className={styles.ticket_section}>
                 <NavLink to="/tickets">Go back</NavLink>
                 <div className={styles.ticket_editing}>
-                        <label htmlFor="status">Select the status of the ticket</label>
+                        <label htmlFor="isSolved">Select the status of the ticket</label>
                         <select
-                        id="status"
-                        value={formData.status}
-                        name="status"
+                        id="isSolved"
+                        value={formData.isSolved}
+                        name="isSolved"
                         onChange={handleChange}
                         >
                             <option value="">Select status</option>
-                            <option value="open">Open</option>
-                            <option value="closed">Close</option>
+                            <option value={true}>Open</option>
+                            <option value={false}>Close</option>
                         </select>
 
                         <label htmlFor="category">Select the category of the ticket</label>
@@ -102,26 +148,26 @@ export default function Ticket(){
                             <option value="other">Other</option>
                         </select>
 
-                        <label htmlFor="campus">Select the campus</label>
+                        <label htmlFor="location">Select the campus</label>
                         <select
-                        id="campus"
+                        id="location"
                         value={formData.campus}
-                        name="campus"
+                        name="location"
                         onChange={handleChange}
                         >
                             <option value="">Select the campus</option>
                             <option value="dallasHighschool">Dallas Highschool</option>
-                            <option value="dallasJuniorhigh">Dallas Junior High</option>
+                            <option value="dallasJuniorHigh">Dallas Junior High</option>
                             <option value="dallasElementary">Dallas Elementary</option>
                             <option value="duncanville">Duncanville</option>
                             <option value="mansfield">Mansfield</option>
                         </select>
 
-                        <label htmlFor="assigned">Modify who is assigned to this ticket</label>
+                        <label htmlFor="personAssigned">Modify who is assigned to this ticket</label>
                         <select
-                        id="assigned"
-                        value={formData.assigned}
-                        name="assigned"
+                        id="personAssigned"
+                        value={formData.personAssigned}
+                        name="personAssigned"
                         onChange={handleChange}
                         >
                             <option value="">Select user</option>
@@ -142,7 +188,7 @@ export default function Ticket(){
                     <div className={`${styles.ticket_info} ${styles.centered}`}>
                         <div>
                             <p>STATUS</p>
-                            <p>{data.isSolved ? "Closed" : "Pending"}</p>
+                            <p>{data.isSolved ? "Closed" : "Open"}</p>
                         </div>
 
                         <div>
@@ -163,7 +209,7 @@ export default function Ticket(){
                         </div>
                     </div>
                     <div className={styles.comments_container}>
-                        {data.comments.length > 0 ? commentsEl : "No comments yet"}
+                        {comments.length ? comments : "No comments yet"}
                     </div>
                     <div className={styles.comment_section}>
                         <hr/>
@@ -178,7 +224,7 @@ export default function Ticket(){
                         </div>
                     </div>
                     
-                    <button className={styles.submit_btn}>Submit</button>
+                    <button className={styles.submit_btn} onClick={handleSubmit}>Submit</button>
                     
                 </div>
     )

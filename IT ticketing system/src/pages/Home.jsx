@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react"
 import styles from "../App.module.css"
-import {dat} from "../configuration.js"
+import {getTickets} from "../configuration.js"
 
 
 export default function Home(){
@@ -14,11 +14,16 @@ export default function Home(){
 
 
     useEffect(()=>{
-        getData()
-    },[dat])
-    function getData(){
-        setData(dat)
-    }
+            async function fetchTickets(){
+                const newTickets = await getTickets()
+                setData(newTickets)
+            }
+             
+    
+            fetchTickets()
+
+    },[])
+   
 
 
     useEffect(()=>{
