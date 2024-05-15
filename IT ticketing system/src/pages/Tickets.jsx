@@ -15,17 +15,13 @@ export default function Tickets(){
     
 
     useEffect(()=>{
-        async function fetchTickets(){
-            const newTickets = await getTickets()
-            setTicketsDat(newTickets)
-        }
-         
-
         fetchTickets()
-        
     },[])
     
-
+    async function fetchTickets(){
+        const newTickets = await getTickets()
+        setTicketsDat(newTickets)
+    }
 
 
     function handleChange(event) {
@@ -42,8 +38,10 @@ export default function Tickets(){
 
 
 
+
+
     const tickets=ticketsDat && ticketsDat.map(element=> {
-        const {id, category, isAssigned, isSolved, location, personAssigned, personReporting} = element
+        const {id, category, isSolved, location, personAssigned, personReporting} = element
         return (
             <div key={id} className={styles.ticket}>
                 <a href={`tickets/${id}`}>view</a>
@@ -57,7 +55,7 @@ export default function Tickets(){
                 location === "duncanville" ? "Duncanville" : "Mansfield"
                 }</p>
                 <p>{category}</p>
-                <p>{isAssigned ? personAssigned : "unassigned"}</p>
+                <p>{personAssigned !== "" ? personAssigned : "unassigned"}</p>
                 <p>{isSolved ? "closed" : "pending"}</p>
 
             </div>
@@ -65,7 +63,7 @@ export default function Tickets(){
 
     return (
         <div className={styles.tickets_main}>
-            {newTicket && <NewTicket onClick={()=>createNewTicket()}/>}
+            {newTicket && <NewTicket onClick={()=>createNewTicket()} newFetch ={()=>fetchTickets()}/>}
             <div className={styles.tickets_selectors}>
                 <select
                 id="filter"

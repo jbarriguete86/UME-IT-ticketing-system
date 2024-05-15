@@ -56,9 +56,13 @@ header{
 }
 
 .logo_container > p {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bolder;
     color: #1C1678;
+}
+
+nav > a {
+    font-size: 1.5rem;
 }
 
 /* TICKET CONTAINER COMPONENT */
@@ -147,8 +151,14 @@ header{
 }
 
 .ticket_section > button {
-    background-color: rgb(20, 9, 168);
+    background-color: rgb(20, 9, 168) ;
+    font-size: 1.6rem ;
     align-self: center;
+    padding: .3em;
+}
+
+.ticket_section > button:active{
+    background-color: black;
 }
 
 .comment_section{
@@ -200,14 +210,14 @@ header{
 .comments_container{
     width: 100%;
     align-items: center;
-    /* border: 1px solid black; */
+
 }
 
 .comment_container{
     width: 50%;
     border: none;
     border-bottom: 1px double #1C1678;
-    /* padding-bottom: 1em; */
+
 }
 
 .comment_container > p{
@@ -235,12 +245,13 @@ header{
     display: flex;
     width: 80%;
     height: 100%;
+    min-height: 780px;
     background-color: white;    
     align-items: center;
     flex-direction: column;
     left: 0;
     right: 0;
-    top: 3.5em;
+    top: 25em;
     bottom: 0;
     margin: auto;
     padding: 1em;

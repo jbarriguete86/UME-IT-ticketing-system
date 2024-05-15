@@ -1,7 +1,7 @@
 
 import { initializeApp } from "firebase/app";
-import { doc, getDoc, getDocs, updateDoc, collection, getFirestore } from "firebase/firestore";
-import {getModifiedFields} from "./utilities.js"
+import { doc, getDoc, getDocs, updateDoc, addDoc, collection, getFirestore } from "firebase/firestore";
+import { signInWithPopup, GoogleAuthProvider, getAuth, signOut } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDa3k_2b1ac5QohdYfSMuFv61hJO6qy39o",
@@ -18,7 +18,6 @@ const db = getFirestore(app)
 const ticketsRef= collection(db, "Tickets")
 
 
-
 const getTickets = async () => {
     const querySnapshot = await getDocs(ticketsRef);
     let ticketsDb = [];
@@ -29,31 +28,27 @@ const getTickets = async () => {
   };
 
 
-
 const getTicketById = async (ticketId) => {
-    const ticketDocRef = doc(ticketsRef, ticketId);
-    const ticketDoc = await getDoc(ticketDocRef);
+    const ticketDocRef = doc(ticketsRef, ticketId)
+    const ticketDoc = await getDoc(ticketDocRef)
     if (ticketDoc.exists()) {
-      return { id: ticketDoc.id, ...ticketDoc.data() };
+      return { id: ticketDoc.id, ...ticketDoc.data() }
     } else {
-      console.log("No such document!");
+      console.log("No such document!")
       return null;
     }
   }
 
   const addComment = async (ticketId, comment) => {
-    const ticketDocRef = doc(ticketsRef, ticketId);
-    const ticketDoc = await getDoc(ticketDocRef);
+    const ticketDocRef = doc(ticketsRef, ticketId)
+    const ticketDoc = await getDoc(ticketDocRef)
   
     if (ticketDoc.exists()) {
-      const comments = ticketDoc.data().comments || [];
-      comments.push(comment);
+      const comments = ticketDoc.data().comments || []
+      comments.push(comment)
   
-      await updateDoc(ticketDocRef, { comments });
-      console.log("Comment added!");
-    } else {
-      console.log("No such document!");
-    }
+      await updateDoc(ticketDocRef, { comments })
+    } 
   }
 
   const updateTicket = async (ticketId, newInfo)=>{
@@ -62,73 +57,49 @@ const getTicketById = async (ticketId) => {
 
     if (ticketDoc.exists()){
             await updateDoc(ticketDocRef, newInfo)
-            console.log("Document updated")
-        } else {
-        console.log("No such document!")
         }
     }
 
+  const createNewTicket = async (newData) => {
+    await addDoc(ticketsRef, newData)
+    console.log("new ticket submitted")
+  }
 
 
-export {db, ticketsRef, getTicketById, getTickets, addComment, updateTicket}
+  //  authentication
+  const auth = getAuth()
+  let user = null
+
+
+  const signIn = async() => {
+    const provider = await new GoogleAuthProvider()
+    try {
+      const result = await signInWithPopup(auth, provider)
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      user = result.user;
+      localStorage.setItem('authenticatedUser', JSON.stringify(user.reloadUserInfo.displayName))
+      return user
+    } catch(error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+  }
+  }
+
+  const logOut = () => {
+    signOut(auth).then (()=>{console.log("you've been succesfully signed out")
+    localStorage.removeItem('authenticatedUser')
+    })
+
+  }
+  
+
+    
 
 
 
-// const dat = [
-//     {
-//     id:1,
-//     description: "The computer is not working everytime I press start is not powering on",
-//     personReporting: "Mr. Lamae",
-//     location:"dallasHighschool",
-//     room:"209",
-//     category:"computer",
-//     isAssigned: false,
-//     personAssigned:"",
-//     isSolved: false,
-//     dateClosed:"",
-//     comments:[]
-// },
-// {
-//     id:2,
-//     description: "Upstair printer jamming every other print",
-//     personReporting: "Mr. Loomis",
-//     location:"dallasElementary",
-//     room:"",
-//     category:"printer",
-//     isAssigned: false,
-//     personAssigned:"",
-//     isSolved: false,
-//     dateClosed:"",
-//     comments:[]
-// },
-// {
-//     id:3,
-//     description: "downstair printer jamming every other print",
-//     personReporting: "Mr. Artemis",
-//     location:"dallasHighschool",
-//     room:"teacher workroom",
-//     category:"printer",
-//     isAssigned: true,
-//     personAssigned:"Landy Williams",
-//     isSolved: false,
-//     dateClosed:"",
-//     comments:[]
-// },
-// {
-//     id:4,
-//     description: "laptop not displaying sound",
-//     personReporting: "Mr. Grace",
-//     location:"duncanville",
-//     room:"127-B",
-//     category:"computer",
-//     isAssigned: true,
-//     personAssigned:"Jose Barriguete",
-//     isSolved: true,
-//     dateClosed:"05/06/2024",
-//     comments:[
-//         {key:"dfer3", user:"Landy Williams", comment:"I talked to the teacher and ask her to reset the laptop, but that didn't work", date:"may 2nd, 2024"},
-//         {key:"dfer4",user:"Jose Barriguete", comment:"I sent an email to the teacher, will visit the campus on may 6th, to troubleshoot on premises", date:"may 4th, 2024"},
-//         {key:"dfer5", user:"Jose Barriguete", comment:"Reset the laptop and it worked again, I send the email closing the ticket on may 6th, 2024", date:"may 6th,2024"}
-//     ]
-// }
-// ]
+export {db, ticketsRef, getTicketById, getTickets, addComment, updateTicket, createNewTicket, signIn, user, logOut}
+
+

@@ -1,10 +1,12 @@
 import React, { useEffect, useState} from "react"
 import styles from "../App.module.css"
+import { logOut } from "../configuration.js"
 import {getTickets} from "../configuration.js"
 
 
 export default function Home(){
     const [data, setData]= useState([])
+    const [signed, setSigned] = useState(localStorage.getItem("authenticatedUser") !== null)
     const [ticketsInfo, setTicketsInfo]=useState({
         assigned:0,
         solved:0,
@@ -24,8 +26,6 @@ export default function Home(){
 
     },[])
    
-
-
     useEffect(()=>{
 
         const solvedTickets= data.filter(element => element.isSolved)
@@ -40,8 +40,14 @@ export default function Home(){
         })
     },[data])
 
+    function handleClick(){
+        signed ? logOut() : console.log("sign in")
+
+    }
+
     return (
         <div className={styles.home_container}>
+            <button onClick={handleClick}>{signed ? "Log Out": "Sign in"}</button>
             <h2>Welcome to the UME IT ticketing system</h2>
             <div className={styles.home_wrapper}>
                 <div className={styles.ticket_type_container}>

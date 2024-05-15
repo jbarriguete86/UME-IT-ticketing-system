@@ -1,24 +1,23 @@
 import React, {useEffect, useState} from "react"
+import {createNewTicket} from "../configuration.js"
 import styles from "./components.module.css"
 
 
-export default function NewTicket({onClick}){
+export default function NewTicket({onClick, newFetch}){
     const [formData, setFormData] = useState({
-        id:"",
         description: "",
         personReporting: "",
         location:"",
         room:"",
         category:"",
-        isAssigned: false,
         personAssigned:"",
         isSolved: false,
         dateClosed:"",
         comments:[]
     })
  
-    function handleChange(){
-        const { name, value } = event.target;
+    function handleChange(e){
+        const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -26,8 +25,29 @@ export default function NewTicket({onClick}){
         
     }
 
-    console.log(formData)
-
+    async function handleSubmit(){
+        const requiredFields = ["description", "personReporting", "location", "room", "category"]
+        const status = requiredFields.filter(field => formData[field] === "")
+        
+        if(!status.length) {
+            await createNewTicket(formData)
+            setFormData({
+                description: "",
+                personReporting: "",
+                location:"",
+                room:"",
+                category:"",
+                isAssigned: false,
+                personAssigned:"",
+                isSolved: false,
+                dateClosed:"",
+                comments:[]
+            })
+            newFetch()
+            onClick()
+        }
+    }
+    
     return (
         <div className={styles.new_ticket_container}>
             <p className={styles.close_new} onClick={onClick}>X</p>
@@ -93,7 +113,7 @@ export default function NewTicket({onClick}){
                 </div>
             </div>
             
-            <button className={styles.submit_new_btn}>Submit ticket</button>
+            <button onClick={handleSubmit} className={styles.submit_new_btn}>Submit ticket</button>
 
         </div>
     )

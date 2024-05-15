@@ -1,9 +1,10 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import { NavLink } from "react-router-dom"
 import umeLogo from "../assets/UMELogoTransparent.png"
 import styles from "./components.module.css"
 
 export default function Header(){
+ 
 
     const activeStyles = {
         fontWeight: "bold",
@@ -34,12 +35,6 @@ export default function Header(){
                 Tickets
                 </NavLink>
 
-                <NavLink 
-                to ="/login"
-                style={({ isActive }) => isActive ? activeStyles : null}
-                >
-                Login
-                </NavLink>
 
             </nav>
         </header>

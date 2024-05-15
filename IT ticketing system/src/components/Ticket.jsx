@@ -30,42 +30,60 @@ export default function Ticket(){
 
     useEffect(()=>{
        setComments(getComments())
+       data && setFormData(prevFormData=>({
+        ...prevFormData,
+        isSolved: data.isSolved
+       }))
     }, [data])
 
 
 
     function handleChange(event) {
         const { name, value } = event.target;
-        
+        const valueToSet = name === "isSolved" ? (value === "true") : value
+
         setFormData(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: valueToSet
         }))
     }
 
     async  function handleSubmit(){
-        const updatedKeys = Object.keys(formData).filter(key => formData[key] !== "").reduce((acc, key)=> {
-            acc[key] = formData[key]
-            return acc
+        const toCompare = ["isSolved", "personAssigned", "category", "location"]
+        const dataToChange = toCompare.reduce((acc, element) => {
+            if (formData[element] !== "" && formData[element] !== data[element]) {
+                acc[element] = formData[element];
+            }
+            return acc;
         }, {})
-
-        if (Object.keys(updatedKeys).length > 0){
-            await updateTicket(id, updatedKeys)
-            const updatedTicket = await getTicketById(id);
+        console.log(dataToChange)
+        if (Object.keys(dataToChange).length > 0) {
+            await updateTicket(id, dataToChange)
+            const updatedTicket = await getTicketById(id)
             setData(updatedTicket)
             setFormData({
-                isSolved:"",
-                personAssigned:"",
-                category:"",
-                location:""
+                isSolved: false,
+                personAssigned: "",
+                category: "",
+                location: ""
             })
-            
-            
-        } else {
-            console.log("no data to modify")
         }
-
-    }
+        }
+     
+        // if (Object.keys(updatedKeys).length > 0){
+        //     await updateTicket(id, updatedKeys)
+        //     const updatedTicket = await getTicketById(id);
+        //     setData(updatedTicket)
+        //     setFormData({
+        //         isSolved:false,
+        //         personAssigned:"",
+        //         category:"",
+        //         location:""
+        //     })
+            
+            
+        // } 
+    
 
     async function submitComment(e){
         e.preventDefault()
@@ -75,17 +93,15 @@ export default function Ticket(){
             const date = formatDate()
 
             if (!comment.trim()) {
-                console.log("Comment cannot be empty")
                 return;
               }
               const newComment = { key, user, comment, date }
         
               try {
-                await addComment(id, newComment);
-                console.log("Comment added successfully");
-                
-                const updatedTicket = await getTicketById(id);
-                setData(updatedTicket);
+                await addComment(id, newComment)
+                const updatedTicket = await getTicketById(id)
+                setData(updatedTicket)
+
             } catch (error) {
                 console.error("Error adding comment:", error);
             }
@@ -128,9 +144,8 @@ export default function Ticket(){
                         name="isSolved"
                         onChange={handleChange}
                         >
-                            <option value="">Select status</option>
-                            <option value={true}>Open</option>
-                            <option value={false}>Close</option>
+                            <option value={false}>Open</option>
+                            <option value={true}>Close</option>
                         </select>
 
                         <label htmlFor="category">Select the category of the ticket</label>
@@ -175,7 +190,7 @@ export default function Ticket(){
                             <option value="Landy Williams">Landy Williams</option>
                         </select>
                     </div>
-                    
+                    <button className={styles.update_btn} onClick={handleSubmit}>Update Ticket</button>
                     <div className={styles.ticket_info}>
                         <p>Person reporting the ticket |</p>
                         <p>{data.personReporting}</p>
@@ -205,7 +220,7 @@ export default function Ticket(){
                         </div>
                         <div>
                             <p>Assigned to:</p>
-                            <p>{data.isAssigned ? data.personAssigned : "unassigned"}</p>
+                            <p>{data.personAssigned !== "" ? data.personAssigned : "unassigned"}</p>
                         </div>
                     </div>
                     <div className={styles.comments_container}>
@@ -223,9 +238,6 @@ export default function Ticket(){
                             <button className={styles.submitComment} onClick={submitComment}>Enter comment</button>
                         </div>
                     </div>
-                    
-                    <button className={styles.submit_btn} onClick={handleSubmit}>Submit</button>
-                    
                 </div>
     )
 }
