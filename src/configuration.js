@@ -1,7 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import { doc, getDoc, getDocs, updateDoc, addDoc, collection, getFirestore } from "firebase/firestore";
-import { signInWithPopup, GoogleAuthProvider, getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword   } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDa3k_2b1ac5QohdYfSMuFv61hJO6qy39o",
@@ -70,22 +70,35 @@ const getTicketById = async (ticketId) => {
   const auth = getAuth()
   let user = null
 
-
-  const signIn = async() => {
-    const provider = await new GoogleAuthProvider()
-    try {
-      const result = await signInWithPopup(auth, provider)
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      user = result.user;
-      localStorage.setItem('authenticatedUser', JSON.stringify(user.reloadUserInfo.displayName))
-      return user
-    } catch(error) {
+  const logIn = async () =>{
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    localStorage.setItem('authenticatedUser', JSON.stringify(user.reloadUserInfo.displayName))
+    return user
+    // ...
+  })
+  .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    const email = error.customData.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
+  });
   }
+
+  const signIn = async() => {
+    createUserWithEmailAndPassword(auth, email, password)
+   .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    localStorage.setItem('authenticatedUser', JSON.stringify(user.reloadUserInfo.displayName))
+    return user
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
   }
 
   const logOut = () => {
@@ -100,6 +113,6 @@ const getTicketById = async (ticketId) => {
 
 
 
-export {auth,db, ticketsRef, getTicketById, getTickets, addComment, updateTicket, createNewTicket, signIn, user, logOut}
+export {auth,db, ticketsRef, getTicketById, getTickets, addComment, updateTicket, createNewTicket, user, signIn, logIn, logOut}
 
 

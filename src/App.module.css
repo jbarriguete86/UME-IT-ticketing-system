@@ -157,13 +157,47 @@ padding-right: 24px;
     align-items: center;
 }
 
-.login_container > button{
-    padding: 1em;
-    background-color: black;
-    color: white;
+.button_cont{
+    display: flex;
+    gap: 24px;
 }
 
-.login_message > p,
+.login_container > .button_cont > button{
+    padding: .5em;
+    background-color: black;
+    color:aliceblue;
+    
+}
+
+.login_container > .button_cont > button:hover{
+    background-color: crimson;
+    color:black;
+    
+}
+
+
+.sign_cont > input {
+    position: relative;
+    width: 250px;
+    height: 70px;
+    border: 2px salmon solid;
+    border-radius: 4px;;
+    
+}
+
+.sign_cont > input:active{
+    background: white;
+}
+
+.sign_cont > label{
+    position: absolute;
+    z-index: 1;
+    margin-top: -10px;
+    margin-left: 50px;
+    background-color: white
+}
+
+/* .login_message > p,
 .sign_message{
     font-size: 2rem;;
 }
@@ -172,4 +206,4 @@ padding-right: 24px;
     color:brown;
     font-weight: bolder;
     
-}
+} */

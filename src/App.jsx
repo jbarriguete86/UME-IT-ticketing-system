@@ -9,9 +9,6 @@ import AuthRequired from './components/AuthRequired'
 
 function App() {
 
-  useEffect(()=>{
-    console.log("app re-rendered")
-  },[])
 
   return (
     <BrowserRouter>

@@ -13,20 +13,20 @@ export default function Header(){
 
     useEffect(()=>{
        
-            const unsubscribe = onAuthStateChanged(auth, (user) => {
+            const logIn = onAuthStateChanged(auth, (user) => {
                if(user){
                 setLoggedIn(true)
                } else {
                 setLoggedIn(false)
                 
                }
-               console.log("Header re-rendered")
-               console.log(userName)
+            //    console.log("Header re-rendered")
+            //    console.log(userName)
                 
             });
     
             // Cleanup subscription on unmount
-            return () => unsubscribe();
+            return () => logIn();
         
     }, [])
 
@@ -40,7 +40,7 @@ export default function Header(){
         color: "#161616"
     }
 
-    console.log(loggedIn)
+    // console.log(loggedIn)
 
 
     return (

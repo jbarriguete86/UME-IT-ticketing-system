@@ -5,9 +5,7 @@ import styles from "./components.module.css"
 
 export default function Layout(){
     
-    useEffect(()=>{
-        console.log("layout re-rendered")
-    },[])
+
  return (
     <div className={styles.site_wrapper}>
         <Header/>
