@@ -2,8 +2,9 @@ import React, {useState, useEffect} from "react"
 import { nanoid } from "nanoid"
 import { useParams, NavLink } from "react-router-dom"
 import styles from "./components.module.css"
-import { getTicketById, addComment, updateTicket} from "../configuration.js"
+import { getTicketById, addComment, updateTicket, auth} from "../configuration.js"
 import  {formatDate, getLocationName}  from "../utilities.js"
+import {onAuthStateChanged } from "firebase/auth"
 
 
 export default function Ticket(){
@@ -15,8 +16,31 @@ export default function Ticket(){
         location:""
     })
     const [comments, setComments]=useState([])
+    const [loggedIn, setLoggedIn]= useState(false)
+    const [userName, setUserName]= useState("")
     const {id} = useParams()
 
+    useEffect(()=>{
+       
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+           if(user){
+            setLoggedIn(true)
+           } else {
+            setLoggedIn(false)
+            
+           }
+           console.log("ticket re-rendered")
+           console.log(userName)
+            
+        });
+
+        return () => unsubscribe();
+    
+    }, [])
+
+    useEffect(()=>{
+        loggedIn ? setUserName(JSON.parse(localStorage.getItem("authenticatedUser"))) : setUserName("")
+    }, [loggedIn])
 
 
     useEffect(()=>{
@@ -56,7 +80,6 @@ export default function Ticket(){
             }
             return acc;
         }, {})
-        console.log(dataToChange)
         if (Object.keys(dataToChange).length > 0) {
             await updateTicket(id, dataToChange)
             const updatedTicket = await getTicketById(id)
@@ -69,26 +92,13 @@ export default function Ticket(){
             })
         }
         }
-     
-        // if (Object.keys(updatedKeys).length > 0){
-        //     await updateTicket(id, updatedKeys)
-        //     const updatedTicket = await getTicketById(id);
-        //     setData(updatedTicket)
-        //     setFormData({
-        //         isSolved:false,
-        //         personAssigned:"",
-        //         category:"",
-        //         location:""
-        //     })
-            
-            
-        // } 
+
     
 
     async function submitComment(e){
         e.preventDefault()
             const key = nanoid()
-            const user= "Jose Barriguete Ramos"
+            const user= userName
             const comment = formData.comment
             const date = formatDate()
 

@@ -1,7 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import { doc, getDoc, getDocs, updateDoc, addDoc, collection, getFirestore } from "firebase/firestore";
-import { signInWithPopup, GoogleAuthProvider, getAuth, signOut } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDa3k_2b1ac5QohdYfSMuFv61hJO6qy39o",
@@ -100,6 +100,6 @@ const getTicketById = async (ticketId) => {
 
 
 
-export {db, ticketsRef, getTicketById, getTickets, addComment, updateTicket, createNewTicket, signIn, user, logOut}
+export {auth,db, ticketsRef, getTicketById, getTickets, addComment, updateTicket, createNewTicket, signIn, user, logOut}
 
 

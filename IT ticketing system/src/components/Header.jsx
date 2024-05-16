@@ -1,16 +1,46 @@
 import React, {useState, useEffect} from "react"
 import { NavLink } from "react-router-dom"
+import { auth} from "../configuration.js"
+import {onAuthStateChanged } from "firebase/auth"
 import umeLogo from "../assets/UMELogoTransparent.png"
 import styles from "./components.module.css"
 
 export default function Header(){
- 
+    const [loggedIn, setLoggedIn]= useState(false)
+    const [userName, setUserName]= useState("")
+
+    
+
+    useEffect(()=>{
+       
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+               if(user){
+                setLoggedIn(true)
+               } else {
+                setLoggedIn(false)
+                
+               }
+               console.log("Header re-rendered")
+               console.log(userName)
+                
+            });
+    
+            // Cleanup subscription on unmount
+            return () => unsubscribe();
+        
+    }, [])
+
+    useEffect(()=>{
+        loggedIn ? setUserName(JSON.parse(localStorage.getItem("authenticatedUser"))) : setUserName("")
+    }, [loggedIn])
 
     const activeStyles = {
         fontWeight: "bold",
         textDecoration: "underline",
         color: "#161616"
     }
+
+    console.log(loggedIn)
 
 
     return (
@@ -19,6 +49,7 @@ export default function Header(){
                 <img src={umeLogo} alt="logo of UME Preparatory Academy"/>
                 <p>IT Ticketing System</p>
             </div>
+            <p>Welcome <span>{userName && userName}</span></p>
             <nav>
                 <NavLink to="."
                 end
@@ -35,6 +66,12 @@ export default function Header(){
                 Tickets
                 </NavLink>
 
+                <NavLink 
+                to ="/login"
+                style={({ isActive }) => isActive ? activeStyles : null}
+                >
+                {loggedIn ? "Log out" : "Login"}
+                </NavLink>
 
             </nav>
         </header>

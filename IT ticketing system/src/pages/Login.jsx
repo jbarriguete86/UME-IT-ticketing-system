@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { signIn, logOut } from "../configuration.js";
-
 import styles from "../App.module.css"
 
 
@@ -14,7 +13,7 @@ export default function Login(){
     const from = location.state?.from || "/";
 
     useEffect(()=>{
-        setUserName(localStorage.getItem("authenticatedUser"))
+        setUserName(JSON.parse(localStorage.getItem("authenticatedUser")))
     },[])
 
     useEffect(()=>{
@@ -32,17 +31,17 @@ export default function Login(){
     }
     
       const display = userName ? 
-      (<>
-        <p>Welcome {userName}</p>
+      (<div className={styles.login_message}>
+        <p>Welcome <span>{userName}</span></p>
         <p>You can use the ticketing system now</p>
-      </>
+      </div>
         
     )
     :
-    (<p>You need to sign in first</p>)
+    (<p className={styles.sign_message}>You need to sign in first</p>)
 
     return (
-        <div className="login-container">
+        <div className={styles.login_container}>
             {display}
             <button onClick={handleClick}>{userName ? "sign out the app" : "Sign in with google"}</button>
         </div>

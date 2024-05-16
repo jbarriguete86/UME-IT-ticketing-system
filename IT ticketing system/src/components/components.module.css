@@ -65,6 +65,17 @@ nav > a {
     font-size: 1.5rem;
 }
 
+header > p {
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+    font-weight: bold;
+    align-items: center;
+}
+
+header > p > span {
+    color: crimson
+}
 /* TICKET CONTAINER COMPONENT */
 
 .ticket_section,
