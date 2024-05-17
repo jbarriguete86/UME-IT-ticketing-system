@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import styles from "../App.module.css"
 import {getTickets} from "../configuration.js"
 import NewTicket from "../components/NewTicket.jsx"
+import Ticket from "../components/Ticket"
 
 export default function Tickets(){
     const [ticketsDat, setTicketsDat] = useState([])
@@ -12,6 +13,8 @@ export default function Tickets(){
         campus:""
     })
     const [newTicket, setNewTicket]=useState(false)
+    const [openTicket, setOpenTicket]=useState(false)
+    const [ticketNumber, setTicketNumber]=useState("")
     
 
     useEffect(()=>{
@@ -32,9 +35,22 @@ export default function Tickets(){
         }))
     }
 
+    function handleOpen(id){
+
+        setOpenTicket(prevState=>!prevState)
+        if(!ticketNumber){
+            setTicketNumber(id)
+        } else {
+            setTicketNumber("")
+            fetchTickets()
+        }
+
+    }
+
     function createNewTicket(){
         setNewTicket(prevState=>!prevState)
     }
+    
 
 
 
@@ -44,7 +60,7 @@ export default function Tickets(){
         const {id, category, isSolved, location, personAssigned, personReporting} = element
         return (
             <div key={id} className={styles.ticket}>
-                <a href={`/tickets/${id}`}>view</a>
+                <p className={styles.view_btn} onClick={()=>handleOpen(id)}>view </p>
                 <p>{personReporting}</p>
                 <p>{location === "dallasHighschool" ? "Dallas Highschool" 
                 : 
@@ -63,6 +79,7 @@ export default function Tickets(){
 
     return (
         <div className={styles.tickets_main}>
+            {openTicket && <Ticket id={ticketNumber} handleClose={()=>{handleOpen()}}/>}
             {newTicket && <NewTicket onClick={()=>createNewTicket()} newFetch ={()=>fetchTickets()}/>}
             <div className={styles.tickets_selectors}>
                 <select

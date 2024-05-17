@@ -96,6 +96,8 @@ header > p > span {
 }
 
 .ticket_section{
+    position: absolute;
+    background-color: white;
     gap: 1em;
     align-items: center;
     padding:  0 7em;
@@ -103,7 +105,7 @@ header > p > span {
 }
 
 .ticket_section > a,
-.ticket_section > button,
+.update_btn,
 .comment_section_inner > button {
     width: 200px;
     cursor: pointer;
@@ -118,9 +120,17 @@ header > p > span {
     background-color: black;
 }
 
-.ticket_section > a{
-    align-self: flex-end;
+.back_btn{
+    align-self: flex-end ;
+    padding: .5em;
+    color: crimson;
+    background-color: black;
 
+}
+
+.back_btn:hover{
+    color: black;
+    background-color: crimson;
 }
 
 .ticket_editing{
@@ -161,16 +171,24 @@ header > p > span {
     border-right: 1px double crimson;
 }
 
-.ticket_section > button {
+.update_btn {
     background-color: rgb(20, 9, 168) ;
     font-size: 1.6rem ;
     align-self: center;
     padding: .3em;
 }
 
-.ticket_section > button:active{
+.update_btn:hover{
+    /* color: rgb(20, 9, 168); */
     background-color: black;
+    /* color: white; */
+    border: 2px yellow solid
+
 }
+
+/* .ticket_section > button:active{
+    background-color: black;
+} */
 
 .comment_section{
     flex-direction: column;
@@ -216,6 +234,12 @@ header > p > span {
     color: black;
     font-size: 1rem;
     padding: 1em;
+}
+
+.comment_section_inner > button:hover{
+    background-color:black;
+    color: crimson;
+    border: 3px solid blue;
 }
 
 .comments_container{

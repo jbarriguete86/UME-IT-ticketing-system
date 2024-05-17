@@ -106,15 +106,20 @@ padding-right: 24px;
     font-weight: bolder;
 }
 
-.tickets_title,
-.ticket{
-    gap: 8%;
+.tickets_title{
+    
 }
 
 .tickets_title > p,
 .ticket > p,
 .ticket > a{
     width: 100%;
+}
+
+.tickets_title,
+.ticket{
+    gap: 8%;
+    text-align: center;
 }
 
 .tickets_title{
@@ -129,15 +134,26 @@ padding-right: 24px;
 }
 
 .ticket{
+    align-items: center;
     padding: 1em 0;
     border: 1px rgb(224, 223, 223) solid;
 }
 
-.ticket > a{
-    border-right: 1px solid black;
+
+
+.view_btn{
+    background: none;
+    border: none;
     text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color:blue;
+    cursor: pointer;
 }
 
+.view_btn:hover{
+    color: crimson;
+}
 
 /* LOGIN COMPONENT */
 .login_container,

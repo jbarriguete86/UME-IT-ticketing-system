@@ -7,7 +7,7 @@ import  {formatDate, getLocationName, getName}  from "../utilities.js"
 import {onAuthStateChanged } from "firebase/auth"
 
 
-export default function Ticket(){
+export default function Ticket({id, handleClose}){
     const [data, setData]=useState()
     const [formData, setFormData]= useState ({
         isSolved:false,
@@ -18,7 +18,7 @@ export default function Ticket(){
     const [comments, setComments]=useState([])
     const [loggedIn, setLoggedIn]= useState(false)
     const [userName, setUserName]= useState("")
-    const {id} = useParams()
+    // const {id} = useParams()
 
     useEffect(()=>{
        
@@ -144,7 +144,7 @@ export default function Ticket(){
 
     return data && (
         <div className={styles.ticket_section}>
-                <NavLink to="/tickets">Go back</NavLink>
+                <button className={styles.back_btn} onClick={()=>handleClose(id)}>Go back</button>
                 <div className={styles.ticket_editing}>
                         <label htmlFor="isSolved">Select the status of the ticket</label>
                         <select
