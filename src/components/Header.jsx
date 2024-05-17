@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { NavLink } from "react-router-dom"
 import { auth} from "../configuration.js"
+import { getName } from "../utilities.js"
 import {onAuthStateChanged } from "firebase/auth"
 import umeLogo from "../assets/UMELogoTransparent.png"
 import styles from "./components.module.css"
@@ -13,26 +14,24 @@ export default function Header(){
 
     useEffect(()=>{
        
-            const logIn = onAuthStateChanged(auth, (user) => {
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
                if(user){
+                console.log(user)
                 setLoggedIn(true)
+                setUserName(getName(user.email))
                } else {
                 setLoggedIn(false)
+                setUserName("")
                 
                }
-            //    console.log("Header re-rendered")
-            //    console.log(userName)
+               console.log(userName)
                 
             });
-    
-            // Cleanup subscription on unmount
-            return () => logIn();
+
+            return () => unsubscribe();
         
     }, [])
 
-    useEffect(()=>{
-        loggedIn ? setUserName(JSON.parse(localStorage.getItem("authenticatedUser"))) : setUserName("")
-    }, [loggedIn])
 
     const activeStyles = {
         fontWeight: "bold",
@@ -40,8 +39,7 @@ export default function Header(){
         color: "#161616"
     }
 
-    // console.log(loggedIn)
-
+    
 
     return (
         <header>

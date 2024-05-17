@@ -3,7 +3,7 @@ import { nanoid } from "nanoid"
 import { useParams, NavLink } from "react-router-dom"
 import styles from "./components.module.css"
 import { getTicketById, addComment, updateTicket, auth} from "../configuration.js"
-import  {formatDate, getLocationName}  from "../utilities.js"
+import  {formatDate, getLocationName, getName}  from "../utilities.js"
 import {onAuthStateChanged } from "firebase/auth"
 
 
@@ -25,6 +25,7 @@ export default function Ticket(){
         const unsubscribe = onAuthStateChanged(auth, (user) => {
            if(user){
             setLoggedIn(true)
+            setUserName(getName(user.email))
            } else {
             setLoggedIn(false)
             
@@ -38,9 +39,7 @@ export default function Ticket(){
     
     }, [])
 
-    useEffect(()=>{
-        loggedIn ? setUserName(JSON.parse(localStorage.getItem("authenticatedUser"))) : setUserName("")
-    }, [loggedIn])
+  
 
 
     useEffect(()=>{

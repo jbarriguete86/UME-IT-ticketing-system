@@ -11,8 +11,6 @@ export default function Login(){
         email:"",
         password:""
     })
-    const [needToUpdate, setNeedToUpdate]= useState(false)
-    const [wrongInfo, setWrongInfo] = useState(false)
     const [signed, setSigned]= useState(false)
     const [userName, setUserName]= useState(null)
     const location = useLocation()
@@ -21,78 +19,58 @@ export default function Login(){
     const from = location.state?.from || "/";
 
 
-    console.log(needToUpdate)
 
     useEffect(()=>{
        
-        const logIn = onAuthStateChanged(auth, (user) => {
+        const unsubscribe  = onAuthStateChanged(auth, (user) => {
            if(user){
-            setUserName(user.displayName)
+            setUserName(user.email)
             setSigned(true)
+            localStorage.setItem("authenticatedUser", userName)
+            if (location.pathname === "/ticket") {
+                navigate(from, { replace: true });
+              }
            } else {
-            ssetSigned(false)
+            setSigned(false)
+            setUserName(null)
+            localStorage.removeItem("authenticatedUser")
             
            }
-        //    console.log("Header re-rendered")
-        //    console.log(userName)
             
-        });
+        })
 
-        // Cleanup subscription on unmount
-        return () => logIn();
+        return () => unsubscribe ()
     
-}, [])
+}, [navigate, from, location.pathname])
 
     useEffect(()=>{
         userName ? setSigned(true) : setSigned(false)
-        console.log( `The username is: ${userName}`)
     },[userName])
 
-    useEffect(()=>{
-       if (signed){
-        !userName.displayname && updateUserInfo()
-       }
-        
-    }, [signed])
 
 
     async function handleLogIn(){
-        if (!userName){
+        if (!signed){
             if (formData.email !== "" && formData.password !== ""){
-                await signInWithEmailAndPassword(auth, formData.email, formData.password)
-                .then ((userCredential)=>{
-                    if(userCredential){
-                        const user = userCredential.user
-                        console.log(user)
-                        setUserName(user)
-                        // setTimeout(()=>{
-                        //     logOut()
-                        //     setUserName(null)
-                        //     }, 1000)
-                        // setSigned(true)
-                        // navigate(from, { replace: true });
-    
-                    } else {
-                        logOut()
-                        setUserName(null)
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password)
+                    const user= userCredential.user
+                    setUserName(user.displayName)
+                    setSigned(true)
+                    navigate(from, { replace: true })
+                    
+                    } catch(error){
+                        console.error(error.message)
                     }
-                })
+                }  
+                }else {
+                    await logOut()
+                    setUserName(null)
+                    setSigned(false)
+                }
+            }
 
-        }} else {
-            logOut()
-            setUserName("")
-        }
-        // console.log(userName)
-        // logOut()
-    }
-
-    function updateUserInfo(){
-         setNeedToUpdate(true)    
-    }
-
-    function signInR(){
-        console.log(signIn)
-    }
+        
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -133,11 +111,10 @@ export default function Login(){
 
     return (
         <div className={styles.login_container}>
-            {needToUpdate && <UpdateInfo onClick={()=>{updateUserInfo}}/>}
             {display}
             <div className={styles.button_cont}>
                 <button onClick={handleLogIn}>{userName ? "Log out" : "Log in"}</button>
-                <button onClick={signInR}>Sign up</button>
+                <button onClick={()=>{console.log("please sign up")}}>Sign up</button>
             </div>
         </div>
     )

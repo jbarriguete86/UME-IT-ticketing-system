@@ -6,7 +6,8 @@ export default function AuthRequired(){
     const location = useLocation()
 
     if (!user){
-        return (<Navigate 
+        return (
+        <Navigate 
         to="/login" 
         state={{
             message: "You must log in first",

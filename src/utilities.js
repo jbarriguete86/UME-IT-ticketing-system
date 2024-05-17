@@ -25,4 +25,9 @@ const getModifiedFields = (newData, originalData) => {
     return modifiedFields;
 }
 
-export {formatDate, getLocationName, getModifiedFields}
+function getName(email){
+    const newUser = email === "it.director@umeprep.org" ? "Jose Barriguete" : email === "landy.williams@umeprep.org" ? "Landy Williams" : "Unknown user"
+    return newUser
+}
+
+export {formatDate, getLocationName, getModifiedFields, getName}

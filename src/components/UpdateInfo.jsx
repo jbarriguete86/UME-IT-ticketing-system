@@ -21,13 +21,14 @@ export function UpdateInfo({onClick}){
     }
     
     async function handleSubmit(){
-        await updateProfile(auth.currentUser, {
-            displayName: formData.name})
-            .then(() => {
+
+        try {
+            await updateProfile(auth.currentUser, {displayName: formData.name})
             onClick()
-          }).catch((error) => {
+
+        } catch(error) {
             console.log(error)
-          })
+          }
     }
     
     return (
