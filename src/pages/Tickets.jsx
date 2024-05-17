@@ -44,7 +44,7 @@ export default function Tickets(){
         const {id, category, isSolved, location, personAssigned, personReporting} = element
         return (
             <div key={id} className={styles.ticket}>
-                <a href={`tickets/${id}`}>view</a>
+                <a href={`/tickets/${id}`}>view</a>
                 <p>{personReporting}</p>
                 <p>{location === "dallasHighschool" ? "Dallas Highschool" 
                 : 
