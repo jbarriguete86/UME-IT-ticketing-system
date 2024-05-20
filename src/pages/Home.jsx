@@ -43,7 +43,8 @@ export default function Home(){
     return (
         <div className={styles.home_container}>
             <h2>Welcome to the UME IT ticketing system</h2>
-            <div className={styles.home_wrapper}>
+            {data.length ? (
+                <div className={styles.home_wrapper}>
                 <div className={styles.ticket_type_container}>
                     <p>Unassigned tickets</p>
                     <p>{ticketsInfo.total - ticketsInfo.assigned}</p>
@@ -60,11 +61,10 @@ export default function Home(){
                     <p>Total tickets</p>
                     <p>{ticketsInfo.total}</p>
                 </div>
-                    
-                <div key="chartContainer" className={styles.chart_container}>
-
-                </div>
             </div>
+            ) : 
+            (<p className={styles.unauth_message}>This is the IT Ticketing system, to get access to this system contact: <a href="mailto:it.director@umeprep.org?subject=I want access to this app">Jose Barriguete</a></p>)}
+            
 
         </div>
     )

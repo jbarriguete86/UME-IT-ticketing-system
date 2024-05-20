@@ -62,6 +62,8 @@ header{
     font-weight: bolder;
     color: #1C1678;
 }
+
+
 nav{
     /* align-items: space-evenly; */
     justify-content: flex-end;
@@ -70,8 +72,17 @@ nav{
     width: 100%;
 }
 
-nav > a {
-    font-size: 1rem;
+
+header > nav {
+    margin-right: 2em;
+    gap: 5em;
+    font-size: 1.4rem;
+
+}
+
+header > nav > a{
+    text-decoration: none;
+    color: black;
 }
 
 header > p {
