@@ -28,7 +28,7 @@ export default function Home(){
     useEffect(()=>{
 
         const solvedTickets= data.filter(element => element.isSolved)
-        const assignedTickets= data.filter(element => element.isAssigned)
+        const assignedTickets= data.filter(element => element.personAssigned)
         const openTickets = data.filter(element => !element.isSolved) 
 
         setTicketsInfo({
