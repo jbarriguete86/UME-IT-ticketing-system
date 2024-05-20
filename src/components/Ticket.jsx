@@ -3,7 +3,7 @@ import { nanoid } from "nanoid"
 import { useParams, NavLink } from "react-router-dom"
 import styles from "./components.module.css"
 import { getTicketById, addComment, updateTicket, auth} from "../configuration.js"
-import  {formatDate, getLocationName, getName}  from "../utilities.js"
+import  {formattedDate, getLocationName, getName}  from "../utilities.js"
 import {onAuthStateChanged } from "firebase/auth"
 
 
@@ -13,12 +13,12 @@ export default function Ticket({id, handleClose}){
         isSolved:false,
         personAssigned:"",
         category:"",
-        location:""
+        location:"",
+        dateClosed:""
     })
     const [comments, setComments]=useState([])
     const [loggedIn, setLoggedIn]= useState(false)
     const [userName, setUserName]= useState("")
-    // const {id} = useParams()
 
     useEffect(()=>{
        
@@ -29,10 +29,7 @@ export default function Ticket({id, handleClose}){
            } else {
             setLoggedIn(false)
             
-           }
-           console.log("ticket re-rendered")
-           console.log(userName)
-            
+           }      
         });
 
         return () => unsubscribe();
@@ -61,6 +58,7 @@ export default function Ticket({id, handleClose}){
 
 
 
+
     function handleChange(event) {
         const { name, value } = event.target;
         const valueToSet = name === "isSolved" ? (value === "true") : value
@@ -79,6 +77,14 @@ export default function Ticket({id, handleClose}){
             }
             return acc;
         }, {})
+
+        if (formData.isSolved !== data.isSolved) {
+            if (formData.isSolved) {
+                dataToChange.dateClosed = formattedDate();
+            } else {
+                dataToChange.dateClosed = "";
+            }
+        }
         if (Object.keys(dataToChange).length > 0) {
             await updateTicket(id, dataToChange)
             const updatedTicket = await getTicketById(id)
@@ -99,7 +105,7 @@ export default function Ticket({id, handleClose}){
             const key = nanoid()
             const user= userName
             const comment = formData.comment
-            const date = formatDate()
+            const date = formattedDate()
 
             if (!comment.trim()) {
                 return;

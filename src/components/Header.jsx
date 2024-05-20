@@ -16,7 +16,6 @@ export default function Header(){
        
             const unsubscribe = onAuthStateChanged(auth, (user) => {
                if(user){
-                console.log(user)
                 setLoggedIn(true)
                 setUserName(getName(user.email))
                } else {
@@ -24,7 +23,6 @@ export default function Header(){
                 setUserName("")
                 
                }
-               console.log(userName)
                 
             });
 

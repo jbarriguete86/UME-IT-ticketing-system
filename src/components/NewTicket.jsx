@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {createNewTicket} from "../configuration.js"
+import { formattedDate } from "../utilities.js"
 import styles from "./components.module.css"
 
 
@@ -13,6 +14,7 @@ export default function NewTicket({onClick, newFetch}){
         personAssigned:"",
         isSolved: false,
         dateClosed:"",
+        createdOn:formattedDate(),
         comments:[]
     })
  
@@ -26,9 +28,10 @@ export default function NewTicket({onClick, newFetch}){
     }
 
     async function handleSubmit(){
+        
         const requiredFields = ["description", "personReporting", "location", "room", "category"]
         const status = requiredFields.filter(field => formData[field] === "")
-        
+
         if(!status.length) {
             await createNewTicket(formData)
             setFormData({
@@ -40,6 +43,7 @@ export default function NewTicket({onClick, newFetch}){
                 isAssigned: false,
                 personAssigned:"",
                 isSolved: false,
+                createdOn: "",
                 dateClosed:"",
                 comments:[]
             })

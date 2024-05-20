@@ -57,7 +57,7 @@ export default function Tickets(){
 
 
     const tickets=ticketsDat && ticketsDat.map(element=> {
-        const {id, category, isSolved, location, personAssigned, personReporting} = element
+        const {id, category, isSolved, location, personAssigned, personReporting, createdOn, dateClosed} = element
         return (
             <div key={id} className={styles.ticket}>
                 <p className={styles.view_btn} onClick={()=>handleOpen(id)}>view </p>
@@ -73,6 +73,8 @@ export default function Tickets(){
                 <p>{category}</p>
                 <p>{personAssigned !== "" ? personAssigned : "unassigned"}</p>
                 <p>{isSolved ? "closed" : "pending"}</p>
+                <p>{createdOn}</p>
+                <p>{isSolved ? dateClosed : "---"}</p>
 
             </div>
         )})
@@ -140,6 +142,8 @@ export default function Tickets(){
                     <p>Category</p>
                     <p>Assigned to</p>
                     <p>Status</p>
+                    <p>Created on</p>
+                    <p>Closed on</p>
                 </div>
                 <div className={styles.tickets}>
                     {ticketsDat && tickets}

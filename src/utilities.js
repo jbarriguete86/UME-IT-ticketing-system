@@ -1,4 +1,4 @@
-const formatDate = () => {
+const formattedDate = () => {
     const today = new Date()
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Intl.DateTimeFormat('en-US', options).format(today);
@@ -30,4 +30,4 @@ function getName(email){
     return newUser
 }
 
-export {formatDate, getLocationName, getModifiedFields, getName}
+export {formattedDate, getLocationName, getModifiedFields, getName}
