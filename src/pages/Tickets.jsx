@@ -72,7 +72,7 @@ export default function Tickets(){
                 }</p>
                 <p>{category}</p>
                 <p>{personAssigned !== "" ? personAssigned : "unassigned"}</p>
-                <p>{isSolved ? "closed" : "pending"}</p>
+                <p>{isSolved ? "closed" : "Open"}</p>
                 <p>{createdOn}</p>
                 <p>{isSolved ? dateClosed : "---"}</p>
 
