@@ -34,8 +34,10 @@
 
 .unauth_message{
     font-size: 2rem;
-    color: crimson
+    color: crimson;
 }
+
+.unauth_message > 
 
 
 
