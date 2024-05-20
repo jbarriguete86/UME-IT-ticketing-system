@@ -4,6 +4,15 @@ const formattedDate = () => {
     return new Intl.DateTimeFormat('en-US', options).format(today);
   }
 
+  const timeStamp = ()=>{
+    const today = new Date()
+    return today
+  }
+
+  const sortTicketsByDate = (tickets) => {
+    return tickets.sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
+}
+
   const getLocationName = (location) =>{
     const locationMap = {
         dallasHighschool: "Dallas Highschool",
@@ -30,4 +39,4 @@ function getName(email){
     return newUser
 }
 
-export {formattedDate, getLocationName, getModifiedFields, getName}
+export {formattedDate,timeStamp, sortTicketsByDate, getLocationName, getModifiedFields, getName}

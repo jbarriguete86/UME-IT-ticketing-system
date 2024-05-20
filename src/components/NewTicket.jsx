@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {createNewTicket} from "../configuration.js"
-import { formattedDate } from "../utilities.js"
+import { formattedDate, timeStamp} from "../utilities.js"
 import styles from "./components.module.css"
 
 
@@ -15,8 +15,10 @@ export default function NewTicket({onClick, newFetch}){
         isSolved: false,
         dateClosed:"",
         createdOn:formattedDate(),
+        timeStamp:timeStamp(),
         comments:[]
     })
+
  
     function handleChange(e){
         const { name, value } = e.target;
