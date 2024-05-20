@@ -26,7 +26,7 @@ const getModifiedFields = (newData, originalData) => {
 }
 
 function getName(email){
-    const newUser = email === "it.director@umeprep.org" ? "Jose Barriguete" : email === "landy.williams@umeprep.org" ? "Landy Williams" : "Unknown user"
+    const newUser = email.split("@")[0].split(".").map(element => element.charAt(0).toUpperCase() + element.slice(1)).join(" ")
     return newUser
 }
 
