@@ -144,7 +144,7 @@ export default function Ticket({id, handleClose}){
                 <p><span>Submitted on: </span>{element.date}</p>
             </div>
         )
-    )
+    ).reverse()
     }
 
 

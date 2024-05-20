@@ -23,7 +23,7 @@ export default function Tickets(){
     
     async function fetchTickets(){
         const newTickets = await getTickets()
-        setTicketsDat(newTickets)
+        setTicketsDat(newTickets.reverse())
     }
 
 
