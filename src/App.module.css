@@ -48,16 +48,13 @@
 .tickets_selectors,
 .tickets_forms,
 .tickets_container,
-.tickets_title,
-.tickets,
-.ticket
+.tickets_title
 {
 display: flex;
 }
 
 .tickets_main,
-.tickets_container,
-.tickets{
+.tickets_container{
 flex-direction: column;
 }
 
@@ -111,34 +108,19 @@ padding-right: 24px;
 }
 
 
-.tickets_title > p,
-.ticket > p,
-.ticket > a{
+.tickets_title > p{
     width: 100%;
 }
-
-.tickets_title,
-.ticket{
-    gap: 8%;
-    text-align: center;
-}
+    
 
 .tickets_title{
     background-color: honeydew;
     font-weight: bold;
     padding: 1em 0;
+    gap: 8%;
+    text-align: center;
 }
 
-.tickets{
- background-color:#E1F7F5 ;
- padding: 0 0 1em 0;
-}
-
-.ticket{
-    align-items: center;
-    padding: 1em 0;
-    border: 1px rgb(224, 223, 223) solid;
-}
 
 
 

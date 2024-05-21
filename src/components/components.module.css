@@ -209,9 +209,7 @@ header > p > span {
 
 }
 
-/* .ticket_section > button:active{
-    background-color: black;
-} */
+
 
 .comment_section{
     flex-direction: column;
@@ -361,3 +359,46 @@ header > p > span {
     background-color: black;
     color: crimson
 }
+
+/* TICKET LIST COMPONENT */
+.tickets,
+.ticket
+{
+display: flex;
+}
+
+.tickets{
+    flex-direction: column;
+    }
+
+    .ticket > p,
+.ticket > a{
+    width: 100%;
+}
+
+.view_btn{
+    background: none;
+    border: none;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color:blue;
+    cursor: pointer;
+}
+
+.view_btn:hover{
+    color: crimson;
+}
+
+.tickets{
+    background-color:#E1F7F5 ;
+    padding: 0 0 1em 0;
+   }
+   
+   .ticket{
+       align-items: center;
+       padding: 1em 0;
+       border-bottom: 1px rgb(224, 223, 223) solid;
+       gap: 8%;
+       text-align: center;
+   }

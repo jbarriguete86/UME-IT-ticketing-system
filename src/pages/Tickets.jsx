@@ -4,6 +4,7 @@ import {getTickets} from "../configuration.js"
 import {sortTicketsByDate} from "../utilities.js"
 import NewTicket from "../components/NewTicket.jsx"
 import Ticket from "../components/Ticket"
+import TicketList from "../components/TicketList.jsx"
 
 export default function Tickets(){
     const [ticketsDat, setTicketsDat] = useState([])
@@ -21,12 +22,6 @@ export default function Tickets(){
     useEffect(()=>{
         fetchTickets()
     },[])
-
-    useEffect(()=>{
-        if(ticketsDat.length){
-            console.log(ticketsDat)
-        }
-    },[ticketsDat])
     
     async function fetchTickets(){
         const newTickets = await getTickets()
@@ -58,55 +53,9 @@ export default function Tickets(){
     function createNewTicket(){
         setNewTicket(prevState=>!prevState)
     }
-    
-    
-    const openTickets=ticketsDat && ticketsDat.map(element=> {
-        const {id, category, isSolved, location, personAssigned, personReporting, createdOn, dateClosed} = element
-        return !isSolved && (
-            <div key={id} className={styles.ticket}>
-                <p className={styles.view_btn} onClick={()=>handleOpen(id)}>view </p>
-                <p>{personReporting}</p>
-                <p>{location === "dallasHighschool" ? "Dallas Highschool" 
-                : 
-                location === "dallasJuniorHigh" ? "Dallas Junior High" 
-                : 
-                location === "dallasElementary" ? "Dallas Elementary"
-                :
-                location === "duncanville" ? "Duncanville" : "Mansfield"
-                }</p>
-                <p>{category}</p>
-                <p>{personAssigned !== "" ? personAssigned : "unassigned"}</p>
-                <p>{isSolved ? "closed" : "Open"}</p>
-                <p>{createdOn}</p>
-                <p>{isSolved ? dateClosed : "---"}</p>
 
-            </div>
-        )})
-
-        const closedTickets=ticketsDat && ticketsDat.map(element=> {
-            const {id, category, isSolved, location, personAssigned, personReporting, createdOn, dateClosed} = element
-            return isSolved && (
-                <div key={id} className={styles.ticket}>
-                    <p className={styles.view_btn} onClick={()=>handleOpen(id)}>view </p>
-                    <p>{personReporting}</p>
-                    <p>{location === "dallasHighschool" ? "Dallas Highschool" 
-                    : 
-                    location === "dallasJuniorHigh" ? "Dallas Junior High" 
-                    : 
-                    location === "dallasElementary" ? "Dallas Elementary"
-                    :
-                    location === "duncanville" ? "Duncanville" : "Mansfield"
-                    }</p>
-                    <p>{category}</p>
-                    <p>{personAssigned !== "" ? personAssigned : "unassigned"}</p>
-                    <p>{isSolved ? "closed" : "Open"}</p>
-                    <p>{createdOn}</p>
-                    <p>{isSolved ? dateClosed : "---"}</p>
-    
-                </div>
-            )})
-    
-
+    const openedTickets= ticketsDat && ticketsDat.filter(ticket => !ticket.isSolved)
+    const closedTickets= ticketsDat && ticketsDat.filter(ticket => ticket.isSolved)
     return (
         <div className={styles.tickets_main}>
             {openTicket && <Ticket id={ticketNumber} handleClose={()=>{handleOpen()}}/>}
@@ -173,9 +122,7 @@ export default function Tickets(){
                     <p>Created on</p>
                     <p>Closed on</p>
                 </div>
-                <div className={styles.tickets}>
-                    {ticketsDat && openTickets}
-                </div>
+                 <TicketList tickets={openedTickets} onOpenTickets={handleOpen}/>
             </div>
             <hr />
             <div className={styles.tickets_container}>
@@ -190,9 +137,7 @@ export default function Tickets(){
                     <p>Created on</p>
                     <p>Closed on</p>
                 </div>
-                <div className={styles.tickets}>
-                    {ticketsDat && closedTickets}
-                </div>
+                <TicketList tickets={closedTickets} onOpenTickets={handleOpen}/>
             </div>
         </div>
     )
