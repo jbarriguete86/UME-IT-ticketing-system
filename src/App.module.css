@@ -37,7 +37,6 @@
     color: crimson;
 }
 
-.unauth_message > 
 
 
 
@@ -106,10 +105,9 @@ padding-right: 24px;
 
 .tickets_main> hr{
     border: none;
-    width: 50%;
+    width: 5%;
     border-bottom: 6px dotted crimson;
     margin: 1em auto;
-
 }
 
 
