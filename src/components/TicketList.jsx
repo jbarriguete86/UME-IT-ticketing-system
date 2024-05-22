@@ -2,7 +2,8 @@ import React from "react"
 import styles from "./components.module.css"
 
 export  default function TicketList({tickets, onOpenTickets}){
-    return (
+
+    return  (
         <div className={styles.tickets}>
             {tickets.map(ticket=>{
                 const {id, category, isSolved, location, personAssigned, personReporting, createdOn, dateClosed } = ticket

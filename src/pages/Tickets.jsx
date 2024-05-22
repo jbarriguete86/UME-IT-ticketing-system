@@ -56,12 +56,14 @@ export default function Tickets(){
 
     const openedTickets= ticketsDat && ticketsDat.filter(ticket => !ticket.isSolved)
     const closedTickets= ticketsDat && ticketsDat.filter(ticket => ticket.isSolved)
+
+
     return (
         <div className={styles.tickets_main}>
             {openTicket && <Ticket id={ticketNumber} handleClose={()=>{handleOpen()}}/>}
             {newTicket && <NewTicket onClick={()=>createNewTicket()} newFetch ={()=>fetchTickets()}/>}
             <div className={styles.tickets_selectors}>
-                <select
+                {/* <select
                 id="filter"
                 value={formData.filter}
                 onChange={handleChange}
@@ -107,7 +109,7 @@ export default function Tickets(){
                 name="ticket"
                 value={formData.ticket}
                 onChange={handleChange}
-                />
+                /> */}
                 <button className={styles.create_btn} onClick={setNewTicket}>Create new</button>
             </div>
             <div className={styles.tickets_container}>

@@ -9,8 +9,12 @@ const formattedDate = () => {
     return today
   }
 
-  const sortTicketsByDate = (tickets) => {
-    return tickets.sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
+  const sortTicketsByDate = (tickets) => { 
+    return tickets.sort((a, b) => {
+        const timeA= a.timeStamp.seconds * 1000 + Math.floor(a.timeStamp.nanoseconds / 1000000)
+        const timeB = b.timeStamp.seconds * 1000 + Math.floor(b.timeStamp.nanoseconds / 1000000)
+        return timeB - timeA
+        });
 }
 
   const getLocationName = (location) =>{
