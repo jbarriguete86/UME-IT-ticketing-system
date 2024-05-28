@@ -13,6 +13,8 @@ export default function Login(){
     })
     const [signed, setSigned]= useState(false)
     const [userName, setUserName]= useState(null)
+    const [error, setError] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
     
@@ -57,10 +59,14 @@ export default function Login(){
                     const user= userCredential.user
                     setUserName(user.displayName)
                     setSigned(true)
+                    setError('')
                     navigate(from, { replace: true })
                     
                     } catch(error){
-                        console.error(error.message)
+                        if(error.code === 'auth/invalid-credential'){
+                           setError('Wrong email or password, try again') 
+                        }
+                        
                     }
                 }  
                 }else {
@@ -80,6 +86,10 @@ export default function Login(){
             [name]: value
         }))
     }
+
+    function togglePasswordVisibility() {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+      }
     
       const display = !userName ? 
       (<div className={styles.login_message}>
@@ -96,12 +106,18 @@ export default function Login(){
             <div className={styles.sign_cont}>
                 <label htmlFor="password">Enter your password</label>
                 <input 
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password" 
                     id="password"
                     value={formData.password}
                     onChange={handleChange}
                 />
+                <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                     className={`${styles.view_password_button} ${showPassword ? styles.show : styles.hide}`}
+                >
+                </button>
             </div>
       </div>
         
@@ -111,6 +127,7 @@ export default function Login(){
 
     return (
         <div className={styles.login_container}>
+            {error && (<p>{error}</p>)}
             {display}
             <div className={styles.button_cont}>
                 <button onClick={handleLogIn}>{userName ? "Log out" : "Log in"}</button>

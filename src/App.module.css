@@ -176,7 +176,7 @@ padding-right: 24px;
 
 
 .sign_cont > input {
-    position: relative;
+    /* position: relative; */
     width: 250px;
     height: 70px;
     border: 2px salmon solid;
@@ -191,7 +191,26 @@ padding-right: 24px;
 .sign_cont > label{
     position: absolute;
     z-index: 1;
-    margin-top: -10px;
-    margin-left: 50px;
+    top: -10px;
+    left: 20%;
     background-color: white
+}
+
+.sign_cont{
+    display: flex;
+    width: 100%;
+    align-items:center;
+    position: relative;
+    gap: 1em;
+}
+
+.view_password_button{
+    width: 15px;
+    height: 15px;
+    border-radius: 0;
+    background: white;
+}
+
+.show{
+    background-color: black;
 }
