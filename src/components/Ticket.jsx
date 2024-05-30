@@ -203,6 +203,7 @@ export default function Ticket({id, handleClose}){
                             <option value="">Select user</option>
                             <option value="Jose Barriguete">Jose Barriguete</option>
                             <option value="Landy Williams">Landy Williams</option>
+                            <option value="Stephanie Holland">Stephanie Holland</option>
                         </select>
                     </div>
                     <button className={styles.update_btn} onClick={handleSubmit}>Update Ticket</button>
