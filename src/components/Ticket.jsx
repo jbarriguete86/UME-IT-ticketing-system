@@ -202,7 +202,7 @@ export default function Ticket({id, handleClose}){
                         >
                             <option value="">Select user</option>
                             <option value="Jose Barriguete">Jose Barriguete</option>
-                            <option value="Landy Williams">Landy Williams</option>
+                            <option value="Jose Chambilla">Jose Chambilla</option>
                             <option value="Stephanie Holland">Stephanie Holland</option>
                         </select>
                     </div>
