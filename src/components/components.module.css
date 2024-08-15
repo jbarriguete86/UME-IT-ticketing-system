@@ -121,8 +121,9 @@ header > p > span {
 .ticket_section{
     position: fixed;
     top: 0;
+    left: 0;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     background-color: white;
     gap: 1em;
     align-items: center;
