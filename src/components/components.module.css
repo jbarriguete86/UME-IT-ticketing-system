@@ -119,7 +119,7 @@ header > p > span {
 }
 
 .ticket_section{
-    position: absolute;
+    position: fixed;
     height: 100%;
     background-color: white;
     gap: 1em;
