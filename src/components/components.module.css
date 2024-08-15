@@ -135,7 +135,7 @@ header > p > span {
 .ticket_section > a,
 .update_btn,
 .comment_section_inner > button {
-    width: 200px;
+    width: 100px;
     cursor: pointer;
     text-decoration: none;
     font-size: 2rem;
