@@ -13,7 +13,7 @@ export  default function TicketList({tickets, onOpenTickets}){
                     <p>{personReporting}</p>
                     <p>{location === "dallasHighschool" ? "Dallas Highschool" 
                     : 
-                    location === "dallasJuniorHigh" ? "Dallas Junior High" 
+                    location === "dallasJuniorhigh" ? "Dallas Junior High" 
                     : 
                     location === "dallasElementary" ? "Dallas Elementary"
                     :
