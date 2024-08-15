@@ -120,6 +120,7 @@ header > p > span {
 
 .ticket_section{
     position: absolute;
+    height: 100svh;
     background-color: white;
     gap: 1em;
     align-items: center;
