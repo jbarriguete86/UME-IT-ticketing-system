@@ -127,7 +127,7 @@ header > p > span {
     background-color: white;
     gap: 1em;
     align-items: center;
-    padding:  0;
+    padding:  1em 1em 0 0;
     overflow-y: scroll;
     overflow: hidden;
 
@@ -174,7 +174,7 @@ header > p > span {
     gap: 2em;
     border-bottom: 1px solid crimson;
     width: 100%;
-    padding-bottom:0 1em 1em 1em;
+    padding:0 0 1em 1em;
     
 }
 
