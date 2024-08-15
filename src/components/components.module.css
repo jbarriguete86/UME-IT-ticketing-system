@@ -173,7 +173,7 @@ header > p > span {
 .ticket_info{
     gap: 2em;
     border-bottom: 1px solid crimson;
-    width: 100%;
+    width: 90%;
     padding:0 0 1em 1em;
     
 }
