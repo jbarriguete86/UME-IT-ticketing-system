@@ -57,6 +57,7 @@ export default function Ticket({id, handleClose}){
     }, [data])
 
 
+    console.log(id)
 
 
     function handleChange(event) {
