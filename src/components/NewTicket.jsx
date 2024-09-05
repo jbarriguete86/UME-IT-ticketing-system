@@ -102,7 +102,7 @@ export default function NewTicket({onClick, newFetch}){
                     onChange={handleChange}>
                     <option value="">Select the campus</option>
                             <option value="dallasHighschool">Dallas Highschool</option>
-                            <option value="dallasJuniorhigh">Dallas Junior High</option>
+                            <option value="dallasJuniorHigh">Dallas Junior High</option>
                             <option value="dallasElementary">Dallas Elementary</option>
                             <option value="duncanville">Duncanville</option>
                             <option value="mansfield">Mansfield</option>
