@@ -25,7 +25,7 @@ const auth = getAuth(app);
 let user = null;
 
 // --- FastAPI Base URL ---
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "https://10.20.67.51:8443";
 
 // --- API Functions (MySQL / FastAPI) ---
 
