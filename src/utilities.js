@@ -1,9 +1,3 @@
-The sortTicketsByDate and timeStamp functions in utilities.js need updates to align with MySQL and FastAPI formats.
-
-Previously, Firestore returned timestamp objects with .seconds and .nanoseconds properties. Your FastAPI backend now returns time_stamp as a standard Unix epoch timestamp integer (in seconds) or standard ISO/date strings.
-
-Here is the refactored utilities.js:
-
 JavaScript
 const formattedDate = () => {
   const today = new Date();
