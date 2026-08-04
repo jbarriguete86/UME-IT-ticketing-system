@@ -1,8 +1,15 @@
-
+JavaScript
 import { initializeApp } from "firebase/app";
-import { doc, getDoc, getDocs, updateDoc, addDoc, collection, getFirestore } from "firebase/firestore";
-import { signInWithPopup, GoogleAuthProvider, getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword   } from "firebase/auth";
+import { 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  getAuth, 
+  signOut, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword 
+} from "firebase/auth";
 
+// --- Firebase Auth Setup ---
 const firebaseConfig = {
   apiKey: "AIzaSyDa3k_2b1ac5QohdYfSMuFv61hJO6qy39o",
   authDomain: "it-ticketing-system-a3ffe.firebaseapp.com",
@@ -14,105 +21,103 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
-const ticketsRef= collection(db, "Tickets")
+const auth = getAuth(app);
+let user = null;
 
+// --- FastAPI Base URL ---
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+// --- API Functions (MySQL / FastAPI) ---
 
 const getTickets = async () => {
-    const querySnapshot = await getDocs(ticketsRef);
-    let ticketsDb = [];
-    querySnapshot.forEach((doc) => {
-        ticketsDb.push({ id: doc.id, ...doc.data() });
-    });
-    return ticketsDb
-  };
-
+  const response = await fetch(`${API_BASE_URL}/tickets`);
+  if (!response.ok) throw new Error("Failed to fetch tickets");
+  return await response.json();
+};
 
 const getTicketById = async (ticketId) => {
-    const ticketDocRef = doc(ticketsRef, ticketId)
-    const ticketDoc = await getDoc(ticketDocRef)
-    if (ticketDoc.exists()) {
-      return { id: ticketDoc.id, ...ticketDoc.data() }
-    } else {
-      console.log("No such document!")
-      return null;
-    }
+  const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}`);
+  if (!response.ok) {
+    console.log("No such ticket found!");
+    return null;
   }
+  return await response.json();
+};
 
-  const addComment = async (ticketId, comment) => {
-    const ticketDocRef = doc(ticketsRef, ticketId)
-    const ticketDoc = await getDoc(ticketDocRef)
-  
-    if (ticketDoc.exists()) {
-      const comments = ticketDoc.data().comments || []
-      comments.push(comment)
-  
-      await updateDoc(ticketDocRef, { comments })
-    } 
-  }
-
-  const updateTicket = async (ticketId, newInfo)=>{
-    const ticketDocRef = doc(ticketsRef, ticketId)
-    const ticketDoc = await getDoc(ticketDocRef)
-
-    if (ticketDoc.exists()){
-            await updateDoc(ticketDocRef, newInfo)
-        }
-    }
-
-  const createNewTicket = async (newData) => {
-    await addDoc(ticketsRef, newData)
-    console.log("new ticket submitted")
-  }
-
-
-  //  authentication
-  const auth = getAuth()
-  let user = null
-
-  const logIn = async () =>{
-    signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    localStorage.setItem('authenticatedUser', JSON.stringify(user.reloadUserInfo.displayName))
-    return user
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+const addComment = async (ticketId, commentPayload) => {
+  // Expects commentPayload = { user: "Admin", comment: "Text", date: "YYYY-MM-DD" }
+  const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}/comments`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(commentPayload)
   });
-  }
+  if (!response.ok) throw new Error("Failed to add comment");
+  return await response.json();
+};
 
-  const signIn = async() => {
-    createUserWithEmailAndPassword(auth, email, password)
-   .then((userCredential) => {
-    // Signed up 
-    const user = userCredential.user;
-    localStorage.setItem('authenticatedUser', JSON.stringify(user.reloadUserInfo.displayName))
-    return user
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
+const updateTicket = async (ticketId, newInfo) => {
+  const response = await fetch(`${API_BASE_URL}/tickets/${ticketId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newInfo)
   });
+  if (!response.ok) throw new Error("Failed to update ticket");
+  return await response.json();
+};
+
+const createNewTicket = async (newData) => {
+  const response = await fetch(`${API_BASE_URL}/tickets`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newData)
+  });
+  if (!response.ok) throw new Error("Failed to create ticket");
+  console.log("New ticket submitted");
+  return await response.json();
+};
+
+// --- Authentication Functions ---
+
+const logIn = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    localStorage.setItem('authenticatedUser', JSON.stringify(user.displayName || user.email));
+    return user;
+  } catch (error) {
+    console.error("Login Error:", error.message);
+    throw error;
   }
+};
 
-  const logOut = () => {
-    signOut(auth).then (()=>{console.log("you've been succesfully signed out")
-    localStorage.removeItem('authenticatedUser')
-    })
-
+const signIn = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    localStorage.setItem('authenticatedUser', JSON.stringify(user.displayName || user.email));
+    return user;
+  } catch (error) {
+    console.error("Sign up Error:", error.message);
+    throw error;
   }
-  
+};
 
-    
+const logOut = () => {
+  signOut(auth).then(() => {
+    console.log("You've been successfully signed out");
+    localStorage.removeItem('authenticatedUser');
+  });
+};
 
-
-
-export {auth,db, ticketsRef, getTicketById, getTickets, addComment, updateTicket, createNewTicket, user, signIn, logIn, logOut}
-
-
+export { 
+  auth, 
+  getTicketById, 
+  getTickets, 
+  addComment, 
+  updateTicket, 
+  createNewTicket, 
+  user, 
+  signIn, 
+  logIn, 
+  logOut 
+};
